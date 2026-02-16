@@ -7,10 +7,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import lk.ijse.hotelmanagementsystem_ijse.dao.PaymentDAO;
+import lk.ijse.hotelmanagementsystem_ijse.dao.PaymentImpl;
 import lk.ijse.hotelmanagementsystem_ijse.dto.PaymentDto;
 import lk.ijse.hotelmanagementsystem_ijse.dto.tm.PaymentTM;
 import lk.ijse.hotelmanagementsystem_ijse.dto.tm.RoomReservationTM;
-import lk.ijse.hotelmanagementsystem_ijse.model.PaymentModel;
 
 import java.net.URL;
 import java.sql.Date;
@@ -41,7 +42,7 @@ public class PaymentController implements Initializable {
     @FXML
     private TextField paymentIdField;
 
-    private final PaymentModel paymentModel = new PaymentModel();
+    private final PaymentDAO paymentDao = new PaymentImpl();
     private final ObservableList<PaymentTM> paymentObList = FXCollections.observableArrayList();
     private ObservableList<RoomReservationTM> roomAllDetails = FXCollections.observableArrayList();;
 
@@ -81,7 +82,7 @@ public class PaymentController implements Initializable {
 
             double totalAmount = Double.parseDouble(lblTotalAmount.getText());
 
-            boolean success = paymentModel.saveFullPayment(
+            boolean success = paymentDao.saveFullPayment(
                     paymentId,
                     totalAmount,
                     method,
@@ -109,7 +110,7 @@ public class PaymentController implements Initializable {
         try {
             paymentObList.clear();
 
-            List<PaymentDto> payments = paymentModel.getAllPayments();
+            List<PaymentDto> payments = paymentDao.getAllPayments();
 
             for (PaymentDto dto : payments) {
                 paymentObList.add(
@@ -132,7 +133,7 @@ public class PaymentController implements Initializable {
 
     private void generatePaymentId() {
         try {
-            paymentIdField.setText(paymentModel.generateNextPaymentId());
+            paymentIdField.setText(paymentDao.generateNextPaymentId());
         } catch (Exception e) {
             e.printStackTrace();
         }

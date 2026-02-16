@@ -16,9 +16,10 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Duration;
+import lk.ijse.hotelmanagementsystem_ijse.dao.DashboardImpl;
 import lk.ijse.hotelmanagementsystem_ijse.dto.RoomDetailsDTO;
 import lk.ijse.hotelmanagementsystem_ijse.dto.tm.RoomTM;
-import lk.ijse.hotelmanagementsystem_ijse.model.DashboardModel;
+
 
 import java.net.URL;
 import java.sql.ResultSet;
@@ -70,10 +71,10 @@ public class DashboardController implements Initializable {
 
     private void loadCounts() {
         try {
-            lblCustomer.setText(String.valueOf(DashboardModel.getCustomerCount()));
-            lblAvalible.setText(String.valueOf(DashboardModel.getAvailableRoomCount()));
-            lblBooking.setText(String.valueOf(DashboardModel.getTodayBookingCount()));
-            lblRevenue.setText(String.format("%.2f", DashboardModel.getTodayRevenue()));
+            lblCustomer.setText(String.valueOf(DashboardImpl.getCustomerCount()));
+            lblAvalible.setText(String.valueOf(DashboardImpl.getAvailableRoomCount()));
+            lblBooking.setText(String.valueOf(DashboardImpl.getTodayBookingCount()));
+            lblRevenue.setText(String.format("%.2f", DashboardImpl.getTodayRevenue()));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -84,7 +85,7 @@ public class DashboardController implements Initializable {
         ObservableList<RoomTM> list = FXCollections.observableArrayList();
 
         try {
-            List<RoomDetailsDTO> rooms = DashboardModel.getRoomDetails();
+            List<RoomDetailsDTO> rooms = DashboardImpl.getRoomDetails();
 
             for (RoomDetailsDTO dto : rooms) {
                 list.add(new RoomTM(dto.getRoomId(), dto.getRoomType(), dto.getPricePerRoom(), dto.getStatus()));
@@ -104,7 +105,7 @@ public class DashboardController implements Initializable {
         series.setName("Weekly Bookings");
 
         try {
-            ResultSet rs = DashboardModel.getWeeklyBookings();
+            ResultSet rs = DashboardImpl.getWeeklyBookings();
 
             while (rs.next()) {
                 String day = rs.getString("day");

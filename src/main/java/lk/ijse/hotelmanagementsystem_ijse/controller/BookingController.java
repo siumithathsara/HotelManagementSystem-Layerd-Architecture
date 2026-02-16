@@ -9,15 +9,11 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import lk.ijse.hotelmanagementsystem_ijse.dao.*;
 import lk.ijse.hotelmanagementsystem_ijse.dto.*;
 import lk.ijse.hotelmanagementsystem_ijse.dto.tm.BookingTM;
-import lk.ijse.hotelmanagementsystem_ijse.model.BookingDetailsModel;
-import lk.ijse.hotelmanagementsystem_ijse.model.BookingModel;
-import lk.ijse.hotelmanagementsystem_ijse.model.CustomerModel;
-import lk.ijse.hotelmanagementsystem_ijse.model.RoomDetailsModel;
 
 import java.net.URL;
-import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.List;
@@ -73,10 +69,10 @@ public class BookingController implements Initializable {
     @FXML
     private ComboBox<String> roomIdBox;
 
-    private CustomerModel customerModel = new CustomerModel();
-    private RoomDetailsModel roomDetailsModel = new RoomDetailsModel();
-    private BookingModel bookingModel = new BookingModel();
-    private final BookingDetailsModel bookingDetailsModel = new BookingDetailsModel();
+    private CustomerDAO customerDao = new CustomerImpl();
+    private RoomDetailsDAO roomDetailsDao = new RoomDetailsImpl();
+    private BookingDAO bookingDao = new BookingImpl();
+    private final BookingDetailsDAO bookingDetailsDao = new BookingDetailsImpl();
 
     private final String BOOKING_ID_REGEX = "^B\\d{3}$";
     private final String DATE_REGEX = "^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])$";
@@ -103,7 +99,7 @@ public class BookingController implements Initializable {
 
     private void loadCustomerIds() {
         try {
-            List<CustomerDTO> customerList = customerModel.getCustomers();
+            List<CustomerDTO> customerList = customerDao.getCustomers();
 
             ObservableList<String> obList = FXCollections.observableArrayList();
 
@@ -122,7 +118,7 @@ public class BookingController implements Initializable {
     private void loadRoomIds() {
         try {
 
-            List<RoomDetailsDTO> roomDetailsDTOList = roomDetailsModel.getAllRooms();
+            List<RoomDetailsDTO> roomDetailsDTOList = roomDetailsDao.getAllRooms();
 
             ObservableList<String> obList = FXCollections.observableArrayList();
 
@@ -150,7 +146,7 @@ public class BookingController implements Initializable {
             }
 
             CustomerDTO customerDTO =
-                    customerModel.searchCustomer(selectedCusId);
+                    customerDao.searchCustomer(selectedCusId);
 
             if (customerDTO == null) {
                 lblCustomerName.setText("");
@@ -179,7 +175,7 @@ public class BookingController implements Initializable {
                 return;
             }
             RoomDetailsDTO roomDetailsDTO =
-                    roomDetailsModel.searchRoom(selectedRoomId);
+                    roomDetailsDao.searchRoom(selectedRoomId);
 
             if (roomDetailsDTO == null) {
                 lblRoomType.setText("");
@@ -198,7 +194,7 @@ public class BookingController implements Initializable {
 
     private void generateBookingId() {
         try {
-            String nextId = bookingModel.generateNextBookingId();
+            String nextId = bookingDao.generateNextBookingId();
             bookingIdField.setText(nextId);
         } catch (Exception e) {
             e.printStackTrace();
@@ -209,15 +205,15 @@ public class BookingController implements Initializable {
     public void loadBookingTable() {
         try {
 
-            List<BookingDTO> bookingDTOList = bookingModel.getAllBookings();
+            List<BookingDTO> bookingDTOList = bookingDao.getAllBookings();
 
             ObservableList<BookingTM> obList = FXCollections.observableArrayList();
 
             for (BookingDTO dto : bookingDTOList) {
 
-                CustomerDTO customer = customerModel.searchCustomer(dto.getCustomer_id());
-                BookingDetailsDTO bookingDetails = bookingDetailsModel.getBookingDetails(dto.getBooking_id());
-                RoomDetailsDTO room = roomDetailsModel.searchRoom(bookingDetails.getRoomId());
+                CustomerDTO customer = customerDao.searchCustomer(dto.getCustomer_id());
+                BookingDetailsDTO bookingDetails = bookingDetailsDao.getBookingDetails(dto.getBooking_id());
+                RoomDetailsDTO room = roomDetailsDao.searchRoom(bookingDetails.getRoomId());
 
                 BookingTM tm = new BookingTM(
                         dto.getBooking_id(),
@@ -278,7 +274,7 @@ public class BookingController implements Initializable {
 
                 BookingDTO bookingDTO = new BookingDTO(bookingId, customerId, sdf.parse(checkInDate), status, bookingDetailsDTO);
 
-                boolean isSaved = bookingModel.saveBooking(bookingDTO);
+                boolean isSaved = bookingDao.saveBooking(bookingDTO);
 
                 if (isSaved) {
                     new Alert(Alert.AlertType.INFORMATION, "Booking Details Added Successfully").show();
@@ -315,7 +311,7 @@ public class BookingController implements Initializable {
                 Optional<ButtonType> result = confirmAlert.showAndWait();
 
                 if (result.isPresent() && result.get() == ButtonType.OK) {
-                    boolean result1 = bookingModel.deleteBooking(bookingId);
+                    boolean result1 = bookingDao.deleteBooking(bookingId);
 
                     if (result1) {
                         new Alert(Alert.AlertType.INFORMATION, "Booking Details deleted successfully!").show();
@@ -375,7 +371,7 @@ public class BookingController implements Initializable {
 
                 BookingDTO bookingDTO = new BookingDTO(bookingId, customerId, sdf.parse(checkInDate), status, bookingDetailsDTO);
 
-                boolean isSaved = bookingModel.updateBooking(bookingDTO);
+                boolean isSaved = bookingDao.updateBooking(bookingDTO);
 
                 if (isSaved) {
                     new Alert(Alert.AlertType.INFORMATION, "Booking Details Update Successfully").show();
@@ -416,7 +412,7 @@ public class BookingController implements Initializable {
                     return;
                 }
 
-                BookingDTO bookingDTO = bookingModel.searchBooking(bookingId);
+                BookingDTO bookingDTO = bookingDao.searchBooking(bookingId);
 
                 if (bookingDTO == null) {
                     new Alert(Alert.AlertType.ERROR, "Booking not found!").show();
@@ -432,18 +428,18 @@ public class BookingController implements Initializable {
 
 
                 CustomerDTO customerDTO =
-                        customerModel.searchCustomer(bookingDTO.getCustomer_id());
+                        customerDao.searchCustomer(bookingDTO.getCustomer_id());
                 lblCustomerName.setText(customerDTO.getName());
 
 
                 BookingDetailsDTO details =
-                        bookingDetailsModel.getBookingDetails(bookingDTO.getBooking_id());
+                        bookingDetailsDao.getBookingDetails(bookingDTO.getBooking_id());
 
                 if (details != null) {
                     roomIdBox.setValue(details.getRoomId());
 
                     RoomDetailsDTO room =
-                            roomDetailsModel.searchRoom(details.getRoomId());
+                            roomDetailsDao.searchRoom(details.getRoomId());
 
                     if (room != null) {
                         lblRoomType.setText(room.getRoomType());

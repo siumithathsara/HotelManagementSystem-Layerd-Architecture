@@ -2,14 +2,13 @@ package lk.ijse.hotelmanagementsystem_ijse.controller;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import lk.ijse.hotelmanagementsystem_ijse.dao.UserImpl;
 import lk.ijse.hotelmanagementsystem_ijse.dto.Session;
 import lk.ijse.hotelmanagementsystem_ijse.dto.UserDTO;
-import lk.ijse.hotelmanagementsystem_ijse.model.UserModel;
 
 
 import java.io.IOException;
@@ -26,7 +25,7 @@ public class LoginController {
     @FXML
     private PasswordField passwordField;
 
-    private final UserModel userModel = new UserModel();
+    private final UserImpl userDao = new UserImpl();
     private final Session currentSession = new Session();
 
     @FXML
@@ -44,10 +43,10 @@ public class LoginController {
             return;
         }
 
-        UserDTO user = userModel.searchUser(username, password);
+        UserDTO user = userDao.searchUser(username, password);
 
         if (user != null) {
-            userModel.updateUserStatus(user.getUser_id(),"Active");
+            userDao.updateUserStatus(user.getUser_id(),"Active");
             currentSession.setCurrentUser(user);
 
 

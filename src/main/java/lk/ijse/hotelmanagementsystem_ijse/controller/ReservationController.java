@@ -6,28 +6,20 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
+import lk.ijse.hotelmanagementsystem_ijse.dao.*;
 import lk.ijse.hotelmanagementsystem_ijse.dto.BookingDTO;
 import lk.ijse.hotelmanagementsystem_ijse.dto.BookingDetailsDTO;
 import lk.ijse.hotelmanagementsystem_ijse.dto.CustomerDTO;
 import lk.ijse.hotelmanagementsystem_ijse.dto.RoomDetailsDTO;
 import lk.ijse.hotelmanagementsystem_ijse.dto.tm.RoomReservationTM;
-import lk.ijse.hotelmanagementsystem_ijse.model.BookingDetailsModel;
-import lk.ijse.hotelmanagementsystem_ijse.model.BookingModel;
-import lk.ijse.hotelmanagementsystem_ijse.model.CustomerModel;
-import lk.ijse.hotelmanagementsystem_ijse.model.RoomDetailsModel;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -96,10 +88,10 @@ public class ReservationController implements Initializable {
     private TableView<RoomReservationTM> reservationView;
 
 
-    private CustomerModel customerModel = new CustomerModel();
-    private RoomDetailsModel roomDetailsModel = new RoomDetailsModel();
-    private BookingModel bookingModel = new BookingModel();
-    private BookingDetailsModel bookingDetailsModel = new BookingDetailsModel();
+    private CustomerDAO customerDao = new CustomerImpl();
+    private RoomDetailsDAO roomDetailsDao = new RoomDetailsImpl();
+    private BookingDAO bookingDao = new BookingImpl();
+    private BookingDetailsDAO bookingDetailsDao = new BookingDetailsImpl();
     private ObservableList<RoomReservationTM> roomReservationObList = FXCollections.observableArrayList();
 
     @Override
@@ -120,7 +112,7 @@ public class ReservationController implements Initializable {
 
         try {
 
-            List<BookingDTO> bookingDTOList = bookingModel.getAllBookings();
+            List<BookingDTO> bookingDTOList = bookingDao.getAllBookings();
             ObservableList<String> obList = FXCollections.observableArrayList();
 
             for (BookingDTO bookingDTO : bookingDTOList) {
@@ -144,10 +136,10 @@ public class ReservationController implements Initializable {
             String bookingId = reservationBox.getValue();
             if (bookingId == null) return;
 
-            BookingDTO booking = bookingModel.searchBooking(bookingId);
-            BookingDetailsDTO details = bookingDetailsModel.getBookingDetails(bookingId);
-            CustomerDTO customer = customerModel.searchCustomer(booking.getCustomer_id());
-            RoomDetailsDTO room = roomDetailsModel.searchRoom(details.getRoomId());
+            BookingDTO booking = bookingDao.searchBooking(bookingId);
+            BookingDetailsDTO details = bookingDetailsDao.getBookingDetails(bookingId);
+            CustomerDTO customer = customerDao.searchCustomer(booking.getCustomer_id());
+            RoomDetailsDTO room = roomDetailsDao.searchRoom(details.getRoomId());
 
             lblDate.setText(String.valueOf(booking.getBooking_date()));
             lblCustomerId.setText(customer.getCustomer_id());
@@ -303,7 +295,7 @@ public class ReservationController implements Initializable {
 
 
 
-                boolean isPlaced = bookingModel.placeBooking(
+                boolean isPlaced = bookingDao.placeBooking(
                         bookingId,
                         customerId,
                         roomId,

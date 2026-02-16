@@ -5,17 +5,15 @@ import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
-import lk.ijse.hotelmanagementsystem_ijse.HelloApplication;
+import lk.ijse.hotelmanagementsystem_ijse.dao.UserImpl;
 import lk.ijse.hotelmanagementsystem_ijse.dto.Session;
 import lk.ijse.hotelmanagementsystem_ijse.dto.UserDTO;
-import lk.ijse.hotelmanagementsystem_ijse.model.UserModel;
 import lombok.SneakyThrows;
 
 import java.io.IOException;
@@ -24,7 +22,6 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class UserViewController implements Initializable {
@@ -41,7 +38,7 @@ public class UserViewController implements Initializable {
     @FXML
     private Label lblTime;
 
-    private UserModel userModel = new UserModel();
+    private UserImpl userDao = new UserImpl();
 
     @SneakyThrows
     @Override
@@ -178,7 +175,7 @@ public class UserViewController implements Initializable {
 
                 if (currentUser != null) {
                     try {
-                        userModel.updateUserStatus(currentUser.getUser_id(), "Inactive");
+                        userDao.updateUserStatus(currentUser.getUser_id(), "Inactive");
                     } catch (SQLException e) {
                         throw new RuntimeException(e);
                     } catch (ClassNotFoundException e) {
