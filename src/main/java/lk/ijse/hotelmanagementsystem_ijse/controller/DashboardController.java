@@ -16,7 +16,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Duration;
-import lk.ijse.hotelmanagementsystem_ijse.dao.DashboardImpl;
+import lk.ijse.hotelmanagementsystem_ijse.dao.custom.impl.DashboardImpl;
 import lk.ijse.hotelmanagementsystem_ijse.dto.RoomDetailsDTO;
 import lk.ijse.hotelmanagementsystem_ijse.dto.tm.RoomTM;
 

@@ -6,7 +6,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import lk.ijse.hotelmanagementsystem_ijse.dao.UserImpl;
+import lk.ijse.hotelmanagementsystem_ijse.dao.custom.impl.UserImpl;
 import lk.ijse.hotelmanagementsystem_ijse.dto.Session;
 import lk.ijse.hotelmanagementsystem_ijse.dto.UserDTO;
 

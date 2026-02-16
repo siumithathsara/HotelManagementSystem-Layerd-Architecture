@@ -1,6 +1,7 @@
-package lk.ijse.hotelmanagementsystem_ijse.dao;
+package lk.ijse.hotelmanagementsystem_ijse.dao.custom.impl;
 
 import javafx.collections.ObservableList;
+import lk.ijse.hotelmanagementsystem_ijse.dao.custom.PaymentDAO;
 import lk.ijse.hotelmanagementsystem_ijse.db.DBConnection;
 import lk.ijse.hotelmanagementsystem_ijse.dto.PaymentDto;
 import lk.ijse.hotelmanagementsystem_ijse.dto.tm.RoomReservationTM;

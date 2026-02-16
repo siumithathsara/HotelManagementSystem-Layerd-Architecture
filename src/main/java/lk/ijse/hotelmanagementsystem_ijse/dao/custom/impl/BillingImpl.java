@@ -1,5 +1,6 @@
-package lk.ijse.hotelmanagementsystem_ijse.dao;
+package lk.ijse.hotelmanagementsystem_ijse.dao.custom.impl;
 
+import lk.ijse.hotelmanagementsystem_ijse.dao.custom.BillingDAO;
 import lk.ijse.hotelmanagementsystem_ijse.dto.BillingDTO;
 import lk.ijse.hotelmanagementsystem_ijse.util.CrudUtil;
 
@@ -8,7 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BillingImpl implements BillingDAO{
+public class BillingImpl implements BillingDAO {
     public boolean saveBill(BillingDTO dto)
             throws SQLException, ClassNotFoundException {
 

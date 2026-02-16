@@ -1,5 +1,6 @@
-package lk.ijse.hotelmanagementsystem_ijse.dao;
+package lk.ijse.hotelmanagementsystem_ijse.dao.custom.impl;
 
+import lk.ijse.hotelmanagementsystem_ijse.dao.custom.EmployeeDAO;
 import lk.ijse.hotelmanagementsystem_ijse.dto.EmployeeDTO;
 import lk.ijse.hotelmanagementsystem_ijse.util.CrudUtil;
 

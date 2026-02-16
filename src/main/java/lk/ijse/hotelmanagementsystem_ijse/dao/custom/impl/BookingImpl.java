@@ -1,5 +1,8 @@
-package lk.ijse.hotelmanagementsystem_ijse.dao;
+package lk.ijse.hotelmanagementsystem_ijse.dao.custom.impl;
 
+import lk.ijse.hotelmanagementsystem_ijse.dao.custom.BookingDAO;
+import lk.ijse.hotelmanagementsystem_ijse.dao.custom.BookingDetailsDAO;
+import lk.ijse.hotelmanagementsystem_ijse.dao.custom.RoomDetailsDAO;
 import lk.ijse.hotelmanagementsystem_ijse.db.DBConnection;
 import lk.ijse.hotelmanagementsystem_ijse.dto.BookingDTO;
 import lk.ijse.hotelmanagementsystem_ijse.util.CrudUtil;
@@ -11,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class BookingImpl implements BookingDAO{
+public class BookingImpl implements BookingDAO {
     private final BookingDetailsDAO bookingDetailsDao = new BookingDetailsImpl();
     private final RoomDetailsDAO roomDetailsDao = new RoomDetailsImpl();
 

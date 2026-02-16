@@ -9,8 +9,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import lk.ijse.hotelmanagementsystem_ijse.dao.RoomDetailsDAO;
-import lk.ijse.hotelmanagementsystem_ijse.dao.RoomDetailsImpl;
+import lk.ijse.hotelmanagementsystem_ijse.dao.custom.RoomDetailsDAO;
+import lk.ijse.hotelmanagementsystem_ijse.dao.custom.impl.RoomDetailsImpl;
 import lk.ijse.hotelmanagementsystem_ijse.dto.RoomDetailsDTO;
 
 import java.net.URL;

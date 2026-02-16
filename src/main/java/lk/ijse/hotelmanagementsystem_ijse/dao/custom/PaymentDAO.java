@@ -1,4 +1,4 @@
-package lk.ijse.hotelmanagementsystem_ijse.dao;
+package lk.ijse.hotelmanagementsystem_ijse.dao.custom;
 
 import javafx.collections.ObservableList;
 import lk.ijse.hotelmanagementsystem_ijse.dto.PaymentDto;

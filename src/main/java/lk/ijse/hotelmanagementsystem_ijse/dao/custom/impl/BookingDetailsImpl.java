@@ -1,5 +1,6 @@
-package lk.ijse.hotelmanagementsystem_ijse.dao;
+package lk.ijse.hotelmanagementsystem_ijse.dao.custom.impl;
 
+import lk.ijse.hotelmanagementsystem_ijse.dao.custom.BookingDetailsDAO;
 import lk.ijse.hotelmanagementsystem_ijse.dto.BookingDetailsDTO;
 import lk.ijse.hotelmanagementsystem_ijse.util.CrudUtil;
 

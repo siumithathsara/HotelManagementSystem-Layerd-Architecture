@@ -11,7 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
-import lk.ijse.hotelmanagementsystem_ijse.dao.UserImpl;
+import lk.ijse.hotelmanagementsystem_ijse.dao.custom.impl.UserImpl;
 import lk.ijse.hotelmanagementsystem_ijse.dto.Session;
 import lk.ijse.hotelmanagementsystem_ijse.dto.UserDTO;
 import lombok.SneakyThrows;
