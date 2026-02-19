@@ -1,4 +1,4 @@
-package lk.ijse.hotelmanagementsystem_ijse.util;
+package lk.ijse.hotelmanagementsystem_ijse.dao;
 
 import lk.ijse.hotelmanagementsystem_ijse.db.DBConnection;
 

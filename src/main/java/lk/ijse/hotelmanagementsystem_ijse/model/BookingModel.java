@@ -4,7 +4,7 @@
 //import lk.ijse.hotelmanagementsystem_ijse.dao.custom.impl.RoomDetailsImpl;
 //import lk.ijse.hotelmanagementsystem_ijse.db.DBConnection;
 //import lk.ijse.hotelmanagementsystem_ijse.dto.BookingDTO;
-//import lk.ijse.hotelmanagementsystem_ijse.util.CrudUtil;
+//import lk.ijse.hotelmanagementsystem_ijse.dao.CrudUtil;
 //
 //import java.sql.Connection;
 //import java.sql.ResultSet;

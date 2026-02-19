@@ -8,6 +8,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import lk.ijse.hotelmanagementsystem_ijse.bo.CustomerBO;
+import lk.ijse.hotelmanagementsystem_ijse.bo.CustomerBOImpl;
 import lk.ijse.hotelmanagementsystem_ijse.dao.custom.CustomerDAO;
 import lk.ijse.hotelmanagementsystem_ijse.dao.custom.impl.CustomerImpl;
 import lk.ijse.hotelmanagementsystem_ijse.dto.CustomerDTO;
@@ -25,7 +27,8 @@ public class CustomerController implements Initializable {
     private final String CUSTOMER_EMAIL_REGEX = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$";
     private final String NIC_OR_PASSPORT_REGEX = "^([0-9]{9}[vVxX]|[0-9]{12}|[A-Za-z][A-Za-z0-9]{5,8})$";
     private final String CONTACT_REGEX = "^\\+[1-9][0-9]{7,14}$";
-    private final CustomerDAO customerDao = new CustomerImpl();
+//    private final CustomerDAO customerDao = new CustomerImpl();
+    private final CustomerBO customerBO = new CustomerBOImpl();
     @FXML
     private TextField contactField;
     @FXML
@@ -100,7 +103,7 @@ public class CustomerController implements Initializable {
 
 
                 CustomerDTO customerDTO = new CustomerDTO(Sid, name, contact, email, nic, address);
-                boolean result = customerDao.saveCustomer(customerDTO);
+                boolean result = customerBO.saveCustomer(customerDTO);
 
                 if (result) {
                     new Alert(Alert.AlertType.INFORMATION, "Customer saved successfully!").show();
@@ -144,7 +147,7 @@ public class CustomerController implements Initializable {
             } else {
 
                 CustomerDTO customerDTO = new CustomerDTO(id, name, contact, email, nic, address);
-                boolean result = customerDao.updateCustomer(customerDTO);
+                boolean result = customerBO.updateCustomer(customerDTO);
 
                 if (result) {
                     new Alert(Alert.AlertType.INFORMATION, "Customer updated successfully!").show();
@@ -191,7 +194,7 @@ public class CustomerController implements Initializable {
                 Optional<ButtonType> result = confirmAlert.showAndWait();
 
                 if (result.isPresent() && result.get() == ButtonType.OK) {
-                    boolean result1 = customerDao.deleteCustomer(customerId);
+                    boolean result1 = customerBO.deleteCustomer(customerId);
 
                     if (result1) {
                         new Alert(Alert.AlertType.INFORMATION, "Customer deleted successfully!").show();
@@ -228,7 +231,7 @@ public class CustomerController implements Initializable {
     public void loadCustomerTable() {
         try {
 
-            List<CustomerDTO> customerList = customerDao.getCustomers();
+            List<CustomerDTO> customerList = customerBO.getCustomers();
 
             ObservableList<CustomerDTO> obList = FXCollections.observableArrayList();
 
@@ -257,7 +260,7 @@ public class CustomerController implements Initializable {
                     new Alert(Alert.AlertType.ERROR, "Invalid ID").show();
                 } else {
 
-                    CustomerDTO customerDTO = customerDao.searchCustomer(id);
+                    CustomerDTO customerDTO = customerBO.searchCustomer(id);
 
                     if (customerDTO != null) {
                         firstNameField.setText(customerDTO.getName());
@@ -282,7 +285,7 @@ public class CustomerController implements Initializable {
 
     private void generateCustomerId() {
         try {
-            String nextId = customerDao.generateNextCustomerId();
+            String nextId = customerBO.generateNextCustomerId();
             customerIdField.setText(nextId);
         } catch (Exception e) {
             e.printStackTrace();

@@ -1,16 +1,17 @@
 package lk.ijse.hotelmanagementsystem_ijse.dao.custom.impl;
 
+import lk.ijse.hotelmanagementsystem_ijse.dao.custom.DashboardDAO;
 import lk.ijse.hotelmanagementsystem_ijse.dto.RoomDetailsDTO;
-import lk.ijse.hotelmanagementsystem_ijse.util.CrudUtil;
+import lk.ijse.hotelmanagementsystem_ijse.entity.RoomDetails;
+import lk.ijse.hotelmanagementsystem_ijse.dao.CrudUtil;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DashboardImpl {
-    public static int getCustomerCount()
-            throws SQLException, ClassNotFoundException {
+public class DashboardImpl implements DashboardDAO {
+    public int getCustomerCount() throws SQLException, ClassNotFoundException {
 
         ResultSet rs = CrudUtil.execute(
                 "SELECT COUNT(*) FROM Customer"
@@ -18,8 +19,7 @@ public class DashboardImpl {
         return rs.next() ? rs.getInt(1) : 0;
     }
 
-    public static int getAvailableRoomCount()
-            throws SQLException, ClassNotFoundException {
+    public  int getAvailableRoomCount() throws SQLException, ClassNotFoundException {
 
         ResultSet rs = CrudUtil.execute(
                 "SELECT COUNT(*) FROM Room_Details WHERE status='Available'"
@@ -27,8 +27,7 @@ public class DashboardImpl {
         return rs.next() ? rs.getInt(1) : 0;
     }
 
-    public static int getTodayBookingCount()
-            throws SQLException, ClassNotFoundException {
+    public  int getTodayBookingCount() throws SQLException, ClassNotFoundException {
 
         ResultSet rs = CrudUtil.execute(
                 "SELECT COUNT(*) FROM Booking WHERE DATE(created_at)=CURDATE()"
@@ -36,8 +35,7 @@ public class DashboardImpl {
         return rs.next() ? rs.getInt(1) : 0;
     }
 
-    public static double getTodayRevenue()
-            throws SQLException, ClassNotFoundException {
+    public  double getTodayRevenue() throws SQLException, ClassNotFoundException {
 
         ResultSet rs = CrudUtil.execute(
                 "SELECT IFNULL(SUM(amount),0) FROM payment " +
@@ -48,8 +46,7 @@ public class DashboardImpl {
     }
 
 
-    public static List<RoomDetailsDTO> getRoomDetails()
-            throws SQLException, ClassNotFoundException {
+    public  List<RoomDetailsDTO> getRoomDetails() throws SQLException, ClassNotFoundException {
 
         ResultSet rs = CrudUtil.execute(
                 "SELECT * FROM Room_Details ORDER BY room_id DESC"
@@ -70,8 +67,7 @@ public class DashboardImpl {
         return roomList;
     }
 
-    public static ResultSet getWeeklyBookings()
-            throws SQLException, ClassNotFoundException {
+    public  ResultSet getWeeklyBookings() throws SQLException, ClassNotFoundException {
 
         return CrudUtil.execute(
                 """

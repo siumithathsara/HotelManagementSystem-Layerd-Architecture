@@ -1,8 +1,8 @@
 package lk.ijse.hotelmanagementsystem_ijse.dao.custom.impl;
 
 import lk.ijse.hotelmanagementsystem_ijse.dao.custom.CustomerDAO;
-import lk.ijse.hotelmanagementsystem_ijse.dto.CustomerDTO;
-import lk.ijse.hotelmanagementsystem_ijse.util.CrudUtil;
+import lk.ijse.hotelmanagementsystem_ijse.entity.Customer;
+import lk.ijse.hotelmanagementsystem_ijse.dao.CrudUtil;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,47 +11,47 @@ import java.util.List;
 
 public class CustomerImpl implements CustomerDAO {
 
-    public boolean saveCustomer(CustomerDTO customerDTO) throws Exception {
+    public boolean save(Customer customer) throws Exception {
         return CrudUtil.execute(
                 "INSERT INTO Customer (customer_id, name, contact, email, nic_passport, address) VALUES (?,?,?,?,?,?)",
-                customerDTO.getCustomer_id(),
-                customerDTO.getName(),
-                customerDTO.getContact(),
-                customerDTO.getEmail(),
-                customerDTO.getNic_passport(),
-                customerDTO.getAddress()
+                customer.getCustomer_id(),
+                customer.getName(),
+                customer.getContact(),
+                customer.getEmail(),
+                customer.getNic_passport(),
+                customer.getAddress()
         );
     }
 
-    public boolean updateCustomer(CustomerDTO customerDTO) throws Exception {
+    public boolean update(Customer customer) throws Exception {
         String sql = "UPDATE Customer SET name=?, contact=?, email=?, nic_passport=?, address=? WHERE customer_id=?";
 
         return CrudUtil.execute(
                 sql,
-                customerDTO.getName(),
-                customerDTO.getContact(),
-                customerDTO.getEmail(),
-                customerDTO.getNic_passport(),
-                customerDTO.getAddress(),
-                customerDTO.getCustomer_id()
+                customer.getName(),
+                customer.getContact(),
+                customer.getEmail(),
+                customer.getNic_passport(),
+                customer.getAddress(),
+                customer.getCustomer_id()
         );
     }
 
-    public boolean deleteCustomer(String customer_id) throws Exception {
+    public boolean delete(String customer_id) throws Exception {
         return CrudUtil.execute(
                 "DELETE FROM Customer WHERE customer_id=?",
                 customer_id
         );
     }
 
-    public CustomerDTO searchCustomer(String customerId) throws Exception {
+    public Customer search(String customerId) throws Exception {
         ResultSet rs = CrudUtil.execute(
                 "SELECT * FROM Customer WHERE customer_id=?",
                 customerId
         );
 
         if (rs.next()) {
-            return new CustomerDTO(
+            return new Customer(
                     rs.getString("customer_id"),
                     rs.getString("name"),
                     rs.getString("contact"),
@@ -63,14 +63,14 @@ public class CustomerImpl implements CustomerDAO {
         return null;
     }
 
-    public List<CustomerDTO> getCustomers() throws SQLException {
+    public List<Customer> getAll() throws SQLException {
         ResultSet rs = CrudUtil.execute(
                 "SELECT * FROM Customer ORDER BY customer_id DESC"
         );
 
-        List<CustomerDTO> customerList = new ArrayList<>();
+        List<Customer> customerList = new ArrayList<>();
         while (rs.next()) {
-            customerList.add(new CustomerDTO(
+            customerList.add(new Customer(
                     rs.getString("customer_id"),
                     rs.getString("name"),
                     rs.getString("contact"),
@@ -82,7 +82,7 @@ public class CustomerImpl implements CustomerDAO {
         return customerList;
     }
 
-    public String generateNextCustomerId() throws Exception {
+    public String generateNextId() throws Exception {
         ResultSet rs = CrudUtil.execute(
                 "SELECT customer_id FROM Customer ORDER BY customer_id DESC LIMIT 1"
         );

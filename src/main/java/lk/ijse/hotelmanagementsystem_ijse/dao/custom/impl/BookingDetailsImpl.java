@@ -2,14 +2,14 @@ package lk.ijse.hotelmanagementsystem_ijse.dao.custom.impl;
 
 import lk.ijse.hotelmanagementsystem_ijse.dao.custom.BookingDetailsDAO;
 import lk.ijse.hotelmanagementsystem_ijse.dto.BookingDetailsDTO;
-import lk.ijse.hotelmanagementsystem_ijse.util.CrudUtil;
+import lk.ijse.hotelmanagementsystem_ijse.dao.CrudUtil;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
 
 public class BookingDetailsImpl implements BookingDetailsDAO {
-    public boolean saveBookingDetails(BookingDetailsDTO bookingDetailsDTO) throws SQLException {
+    public boolean save(BookingDetailsDTO bookingDetailsDTO) throws SQLException {
 
 
         return CrudUtil.execute("INSERT INTO Booking_Details (booking_id, room_id, check_in_date) VALUES (?,?,?)",

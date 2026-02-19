@@ -4,8 +4,8 @@ import lk.ijse.hotelmanagementsystem_ijse.dao.custom.BookingDAO;
 import lk.ijse.hotelmanagementsystem_ijse.dao.custom.BookingDetailsDAO;
 import lk.ijse.hotelmanagementsystem_ijse.dao.custom.RoomDetailsDAO;
 import lk.ijse.hotelmanagementsystem_ijse.db.DBConnection;
-import lk.ijse.hotelmanagementsystem_ijse.dto.BookingDTO;
-import lk.ijse.hotelmanagementsystem_ijse.util.CrudUtil;
+import lk.ijse.hotelmanagementsystem_ijse.entity.Booking;
+import lk.ijse.hotelmanagementsystem_ijse.dao.CrudUtil;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -18,7 +18,7 @@ public class BookingImpl implements BookingDAO {
     private final BookingDetailsDAO bookingDetailsDao = new BookingDetailsImpl();
     private final RoomDetailsDAO roomDetailsDao = new RoomDetailsImpl();
 
-    public boolean saveBooking(BookingDTO dto) throws Exception, ClassNotFoundException {
+    public boolean save(Booking booking) throws Exception, ClassNotFoundException {
 
         Connection conn = DBConnection.getInstance().getConnection();
 
@@ -31,19 +31,19 @@ public class BookingImpl implements BookingDAO {
 
             boolean isSaved =  CrudUtil.execute(
                     sql,
-                    dto.getBooking_id(),
-                    dto.getCustomer_id(),
-                    dto.getBooking_date(),
-                    dto.getStatus()
+                    booking.getBooking_id(),
+                    booking.getCustomer_id(),
+                    booking.getBooking_date(),
+                    booking.getStatus()
             );
 
             if (isSaved) {
 
-                boolean isSavedBookingDetails = bookingDetailsDao.saveBookingDetails(dto.getBookingDetails());
+                boolean isSavedBookingDetails = bookingDetailsDao.save(booking.getBookingDetails());
 
                 if (isSavedBookingDetails) {
 
-                    roomDetailsDao.updateRoomStatus(dto.getBookingDetails().getRoomId(), "Booked");
+                    roomDetailsDao.updateRoomStatus(booking.getBookingDetails().getRoomId(), "Booked");
                 } else {
                     throw new Exception("Something went wrong when saving to the booking details table");
                 }
@@ -63,7 +63,7 @@ public class BookingImpl implements BookingDAO {
         }
         return false;
     }
-    public boolean updateBooking(BookingDTO dto)
+    public boolean update(Booking booking)
             throws SQLException, ClassNotFoundException {
 
         Connection conn = DBConnection.getInstance().getConnection();
@@ -77,20 +77,20 @@ public class BookingImpl implements BookingDAO {
 
             boolean isSaved =  CrudUtil.execute(
                     sql,
-                    dto.getCustomer_id(),
-                    dto.getBooking_date(),
-                    dto.getStatus(),
-                    dto.getBooking_id()
+                    booking.getCustomer_id(),
+                    booking.getBooking_date(),
+                    booking.getStatus(),
+                    booking.getBooking_id()
             );
 
 
             if (isSaved) {
 
-                boolean isSavedBookingDetails = bookingDetailsDao.updateBookingDetails(dto.getBookingDetails());
+                boolean isSavedBookingDetails = bookingDetailsDao.update(booking.getBookingDetails());
 
                 if (isSavedBookingDetails) {
 
-                    roomDetailsDao.updateRoomStatus(dto.getBookingDetails().getRoomId(), "Available");
+                    roomDetailsDao.updateRoomStatus(booking.getBookingDetails().getRoomId(), "Available");
                 } else {
                     throw new Exception("Something went wrong when saving to the booking details table");
                 }
@@ -111,7 +111,7 @@ public class BookingImpl implements BookingDAO {
         return false;
     }
 
-    public boolean deleteBooking(String bookingId)
+    public boolean delete(String bookingId)
             throws SQLException, ClassNotFoundException {
 
         Connection conn = DBConnection.getInstance().getConnection();
@@ -128,7 +128,7 @@ public class BookingImpl implements BookingDAO {
 
 
             boolean isDetailsDeleted =
-                    bookingDetailsDao.deleteBookingDetails(bookingId);
+                    bookingDetailsDao.delete(bookingId);
 
             if (!isDetailsDeleted) {
                 throw new SQLException("Booking details delete failed");
@@ -165,14 +165,14 @@ public class BookingImpl implements BookingDAO {
 
 
 
-    public BookingDTO searchBooking(String bookingId)
+    public Booking search(String bookingId)
             throws SQLException, ClassNotFoundException {
 
         String sql = "SELECT * FROM Booking WHERE booking_id=?";
         ResultSet rs = CrudUtil.execute(sql, bookingId);
 
         if (rs.next()) {
-            return new BookingDTO(
+            return new Booking(
                     rs.getString("booking_id"),
                     rs.getString("customer_id"),
                     rs.getDate("checkin_date"),
@@ -186,15 +186,15 @@ public class BookingImpl implements BookingDAO {
         return null;
     }
 
-    public List<BookingDTO> getAllBookings()
+    public List<Booking> getAll()
             throws SQLException, ClassNotFoundException {
 
         ResultSet rs = CrudUtil.execute("SELECT * FROM Booking ORDER BY booking_id DESC");
-        List<BookingDTO> bookingList = new ArrayList<>();
+        List<Booking> bookingList = new ArrayList<>();
 
         while (rs.next()) {
             bookingList.add(
-                    new BookingDTO(
+                    new Booking(
                             rs.getString("booking_id"),
                             rs.getString("customer_id"),
                             rs.getDate("checkin_date"),
@@ -217,16 +217,16 @@ public class BookingImpl implements BookingDAO {
         return CrudUtil.execute(sql, status, bookingId);
     }
 
-    public List<BookingDTO> getBookingsByDate(String date)
+    public List<Booking> getBookingsByDate(String date)
             throws SQLException, ClassNotFoundException {
 
         String sql = "SELECT * FROM Booking WHERE booking_date=?";
         ResultSet rs = CrudUtil.execute(sql, date);
 
-        List<BookingDTO> list = new ArrayList<>();
+        List<Booking> list = new ArrayList<>();
         while (rs.next()) {
             list.add(
-                    new BookingDTO(
+                    new Booking(
                             rs.getString("booking_id"),
                             rs.getString("customer_id"),
                             rs.getDate("booking_date"),
@@ -241,7 +241,7 @@ public class BookingImpl implements BookingDAO {
         return list;
     }
 
-    public String generateNextBookingId() throws SQLException {
+    public String generateNextId() throws SQLException {
         ResultSet rs = CrudUtil.execute(
                 "SELECT booking_id FROM Booking ORDER BY booking_id DESC LIMIT 1"
         );

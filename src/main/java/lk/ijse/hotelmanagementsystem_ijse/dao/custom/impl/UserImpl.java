@@ -2,45 +2,62 @@ package lk.ijse.hotelmanagementsystem_ijse.dao.custom.impl;
 
 import lk.ijse.hotelmanagementsystem_ijse.dao.custom.UserDAO;
 import lk.ijse.hotelmanagementsystem_ijse.dto.UserDTO;
-import lk.ijse.hotelmanagementsystem_ijse.util.CrudUtil;
+import lk.ijse.hotelmanagementsystem_ijse.entity.User;
+import lk.ijse.hotelmanagementsystem_ijse.dao.CrudUtil;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class UserImpl implements UserDAO {
-    public boolean saveUser(UserDTO userDTO) throws SQLException, ClassNotFoundException {
+    public boolean save(User user) throws SQLException, ClassNotFoundException {
         String sql = "INSERT INTO `User` (user_id, username, password, email, job_role, status) VALUES (?,?,?,?,?,?)";
         return CrudUtil.execute(
                 sql,
-                userDTO.getUser_id(),
-                userDTO.getUser_name(),
-                userDTO.getPassword(),
-                userDTO.getEmail(),
-                userDTO.getJob_role(),
-                userDTO.getStatus()
+                user.getUser_id(),
+                user.getUser_name(),
+                user.getPassword(),
+                user.getEmail(),
+                user.getJob_role(),
+                user.getStatus()
         );
     }
 
-    public boolean updateUser(UserDTO userDTO) throws SQLException, ClassNotFoundException {
+    public boolean update(User user) throws SQLException, ClassNotFoundException {
         String sql = "UPDATE `User` SET username=?, password=?, email=?, job_role=?, status=? WHERE user_id=?";
         return CrudUtil.execute(
                 sql,
-                userDTO.getUser_name(),
-                userDTO.getPassword(),
-                userDTO.getEmail(),
-                userDTO.getJob_role(),
-                userDTO.getStatus(),
-                userDTO.getUser_id()
+                user.getUser_name(),
+                user.getPassword(),
+                user.getEmail(),
+                user.getJob_role(),
+                user.getStatus(),
+                user.getUser_id()
         );
     }
 
-    public boolean deleteUser(String userId) throws SQLException, ClassNotFoundException {
+    public boolean delete(String userId) throws SQLException, ClassNotFoundException {
         String sql = "DELETE FROM `User` WHERE user_id=?";
         return CrudUtil.execute(sql, userId);
     }
 
-    public UserDTO searchUser(String username, String password) throws SQLException, ClassNotFoundException {
+    @Override
+    public User search(String id) throws Exception {
+        return null;
+    }
+
+    @Override
+    public List<User> getAll() throws SQLException, ClassNotFoundException {
+        return List.of();
+    }
+
+    @Override
+    public String generateNextId() throws Exception {
+        return "";
+    }
+
+    public UserDTO search(String username, String password) throws SQLException, ClassNotFoundException {
         String sql = "SELECT * FROM `User` WHERE username=? AND password=?";
         ResultSet rs = CrudUtil.execute(sql, username, password);
 

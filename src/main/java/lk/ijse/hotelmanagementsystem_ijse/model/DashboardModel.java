@@ -1,7 +1,7 @@
 //package lk.ijse.hotelmanagementsystem_ijse.model;
 //
 //import lk.ijse.hotelmanagementsystem_ijse.dto.RoomDetailsDTO;
-//import lk.ijse.hotelmanagementsystem_ijse.util.CrudUtil;
+//import lk.ijse.hotelmanagementsystem_ijse.dao.CrudUtil;
 //
 //import java.sql.ResultSet;
 //import java.sql.SQLException;

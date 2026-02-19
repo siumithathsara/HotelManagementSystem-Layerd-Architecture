@@ -1,8 +1,8 @@
 package lk.ijse.hotelmanagementsystem_ijse.dao.custom.impl;
 
 import lk.ijse.hotelmanagementsystem_ijse.dao.custom.BillingDAO;
-import lk.ijse.hotelmanagementsystem_ijse.dto.BillingDTO;
-import lk.ijse.hotelmanagementsystem_ijse.util.CrudUtil;
+import lk.ijse.hotelmanagementsystem_ijse.entity.Billing;
+import lk.ijse.hotelmanagementsystem_ijse.dao.CrudUtil;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BillingImpl implements BillingDAO {
-    public boolean saveBill(BillingDTO dto)
+    public boolean save(Billing billing)
             throws SQLException, ClassNotFoundException {
 
         String sql = "INSERT INTO Billing " +
@@ -19,16 +19,16 @@ public class BillingImpl implements BillingDAO {
 
         return CrudUtil.execute(
                 sql,
-                dto.getBill_id(),
-                dto.getReservation_id(),
-                dto.getTotal_amount(),
-                dto.getPaid_amount(),
-                dto.getBilling_date(),
-                dto.getStatus()
+                billing.getBill_id(),
+                billing.getReservation_id(),
+                billing.getTotal_amount(),
+                billing.getPaid_amount(),
+                billing.getBilling_date(),
+                billing.getStatus()
         );
     }
 
-    public boolean updateBill(BillingDTO dto)
+    public boolean update(Billing billing)
             throws SQLException, ClassNotFoundException {
 
         String sql = "UPDATE Billing SET " +
@@ -37,30 +37,30 @@ public class BillingImpl implements BillingDAO {
 
         return CrudUtil.execute(
                 sql,
-                dto.getReservation_id(),
-                dto.getTotal_amount(),
-                dto.getPaid_amount(),
-                dto.getBilling_date(),
-                dto.getStatus(),
-                dto.getBill_id()
+                billing.getReservation_id(),
+                billing.getTotal_amount(),
+                billing.getPaid_amount(),
+                billing.getBilling_date(),
+                billing.getStatus(),
+                billing.getBill_id()
         );
     }
 
-    public boolean deleteBill(String billId)
+    public boolean delete(String billId)
             throws SQLException, ClassNotFoundException {
 
         String sql = "DELETE FROM Billing WHERE bill_id=?";
         return CrudUtil.execute(sql, billId);
     }
 
-    public BillingDTO searchBill(String billId)
+    public Billing search(String billId)
             throws SQLException, ClassNotFoundException {
 
         String sql = "SELECT * FROM Billing WHERE bill_id=?";
         ResultSet rs = CrudUtil.execute(sql, billId);
 
         if (rs.next()) {
-            return new BillingDTO(
+            return new Billing(
                     rs.getString("bill_id"),
                     rs.getString("booking_id"),
                     rs.getDouble("total_amount"),
@@ -73,15 +73,15 @@ public class BillingImpl implements BillingDAO {
         return null;
     }
 
-    public List<BillingDTO> getAllBills()
-            throws SQLException, ClassNotFoundException {
+    public List<Billing> getAll()
+            throws SQLException {
 
         ResultSet rs = CrudUtil.execute("SELECT * FROM Billing");
-        List<BillingDTO> billList = new ArrayList<>();
+        List<Billing> billList = new ArrayList<>();
 
         while (rs.next()) {
             billList.add(
-                    new BillingDTO(
+                    new Billing(
                             rs.getString("bill_id"),
                             rs.getString("booking_id"),
                             rs.getDouble("total_amount"),
@@ -95,6 +95,11 @@ public class BillingImpl implements BillingDAO {
         return billList;
     }
 
+    @Override
+    public String generateNextId() throws Exception {
+        return "";
+    }
+
 
     public boolean updatePayment(String billId, double paidAmount)
             throws SQLException, ClassNotFoundException {
@@ -103,14 +108,14 @@ public class BillingImpl implements BillingDAO {
         return CrudUtil.execute(sql, paidAmount, billId);
     }
 
-    public BillingDTO getBillByBookingId(String bookingId)
+    public Billing getBillByBookingId(String bookingId)
             throws SQLException, ClassNotFoundException {
 
         String sql = "SELECT * FROM Billing WHERE booking_id=?";
         ResultSet rs = CrudUtil.execute(sql, bookingId);
 
         if (rs.next()) {
-            return new BillingDTO(
+            return new Billing(
                     rs.getString("bill_id"),
                     rs.getString("booking_id"),
                     rs.getDouble("total_amount"),

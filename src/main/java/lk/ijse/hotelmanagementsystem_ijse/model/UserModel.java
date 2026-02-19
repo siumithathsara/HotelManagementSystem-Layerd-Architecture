@@ -3,7 +3,7 @@
 //
 //
 //import lk.ijse.hotelmanagementsystem_ijse.dto.UserDTO;
-//import lk.ijse.hotelmanagementsystem_ijse.util.CrudUtil;
+//import lk.ijse.hotelmanagementsystem_ijse.dao.CrudUtil;
 //
 //import java.sql.ResultSet;
 //import java.sql.SQLException;

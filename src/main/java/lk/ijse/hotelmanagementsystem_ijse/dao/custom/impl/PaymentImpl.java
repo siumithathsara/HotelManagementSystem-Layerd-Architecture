@@ -3,9 +3,9 @@ package lk.ijse.hotelmanagementsystem_ijse.dao.custom.impl;
 import javafx.collections.ObservableList;
 import lk.ijse.hotelmanagementsystem_ijse.dao.custom.PaymentDAO;
 import lk.ijse.hotelmanagementsystem_ijse.db.DBConnection;
-import lk.ijse.hotelmanagementsystem_ijse.dto.PaymentDto;
 import lk.ijse.hotelmanagementsystem_ijse.dto.tm.RoomReservationTM;
-import lk.ijse.hotelmanagementsystem_ijse.util.CrudUtil;
+import lk.ijse.hotelmanagementsystem_ijse.entity.Payment;
+import lk.ijse.hotelmanagementsystem_ijse.dao.CrudUtil;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.view.JasperViewer;
 
@@ -71,12 +71,32 @@ public class PaymentImpl implements PaymentDAO {
     }
 
 
-    public List<PaymentDto> getAllPayments() throws SQLException {
+    @Override
+    public boolean save(Payment dto) throws Exception {
+        return false;
+    }
+
+    @Override
+    public boolean update(Payment dto) throws Exception {
+        return false;
+    }
+
+    @Override
+    public boolean delete(String id) throws Exception {
+        return false;
+    }
+
+    @Override
+    public Payment search(String id) throws Exception {
+        return null;
+    }
+
+    public List<Payment> getAll() throws SQLException {
         ResultSet rs = CrudUtil.execute("SELECT * FROM payment");
-        List<PaymentDto> list = new ArrayList<>();
+        List<Payment> list = new ArrayList<>();
 
         while (rs.next()) {
-            list.add(new PaymentDto(
+            list.add(new Payment(
                     rs.getString("payment_id"),
                     rs.getTimestamp("payment_date").toLocalDateTime().toLocalDate(),
                     rs.getDouble("amount"),
@@ -88,7 +108,7 @@ public class PaymentImpl implements PaymentDAO {
     }
 
 
-    public String generateNextPaymentId() throws SQLException {
+    public String generateNextId() throws SQLException {
         ResultSet rs = CrudUtil.execute(
                 "SELECT payment_id FROM payment ORDER BY payment_id DESC LIMIT 1"
         );

@@ -55,6 +55,7 @@ public class DashboardController implements Initializable {
     @FXML
     private NumberAxis yAxis;
 
+    private DashboardImpl dashboardDao = new DashboardImpl();
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -71,10 +72,10 @@ public class DashboardController implements Initializable {
 
     private void loadCounts() {
         try {
-            lblCustomer.setText(String.valueOf(DashboardImpl.getCustomerCount()));
-            lblAvalible.setText(String.valueOf(DashboardImpl.getAvailableRoomCount()));
-            lblBooking.setText(String.valueOf(DashboardImpl.getTodayBookingCount()));
-            lblRevenue.setText(String.format("%.2f", DashboardImpl.getTodayRevenue()));
+            lblCustomer.setText(String.valueOf(dashboardDao.getCustomerCount()));
+            lblAvalible.setText(String.valueOf(dashboardDao.getAvailableRoomCount()));
+            lblBooking.setText(String.valueOf(dashboardDao.getTodayBookingCount()));
+            lblRevenue.setText(String.format("%.2f", dashboardDao.getTodayRevenue()));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -85,7 +86,7 @@ public class DashboardController implements Initializable {
         ObservableList<RoomTM> list = FXCollections.observableArrayList();
 
         try {
-            List<RoomDetailsDTO> rooms = DashboardImpl.getRoomDetails();
+            List<RoomDetailsDTO> rooms = dashboardDao.getRoomDetails();
 
             for (RoomDetailsDTO dto : rooms) {
                 list.add(new RoomTM(dto.getRoomId(), dto.getRoomType(), dto.getPricePerRoom(), dto.getStatus()));
@@ -105,7 +106,7 @@ public class DashboardController implements Initializable {
         series.setName("Weekly Bookings");
 
         try {
-            ResultSet rs = DashboardImpl.getWeeklyBookings();
+            ResultSet rs = dashboardDao.getWeeklyBookings();
 
             while (rs.next()) {
                 String day = rs.getString("day");
