@@ -1,18 +1,18 @@
-package lk.ijse.hotelmanagementsystem_ijse.dao;
+package lk.ijse.hotelmanagementsystem_ijse.bo;
 
+import lk.ijse.hotelmanagementsystem_ijse.dao.DAOFactory;
 import lk.ijse.hotelmanagementsystem_ijse.dao.custom.impl.*;
 
-public class DAOFactory {
+public class BOFactory {
+    public static BOFactory boFactory;
 
-    public static DAOFactory daoFactory;
+    private BOFactory() {}
 
-    private DAOFactory() {}
-
-    public static DAOFactory getInstance() {
-        return daoFactory == null ? new DAOFactory() : daoFactory;
+    public static BOFactory getInstance() {
+        return boFactory == null ? new BOFactory() : boFactory;
     }
 
-    public enum DAOTypes{
+    public enum BOTypes{
         BILLING,
         BOOKING_DETAILS,
         BOOKING,
@@ -24,8 +24,8 @@ public class DAOFactory {
         USER
     }
 
-    public SuperDAO getDAO(DAOTypes daoTypes){
-        switch (daoTypes){
+    public Object getBO(BOTypes boTypes){
+        switch (boTypes){
             case BILLING:
                 return new BillingImpl();
             case BOOKING_DETAILS:

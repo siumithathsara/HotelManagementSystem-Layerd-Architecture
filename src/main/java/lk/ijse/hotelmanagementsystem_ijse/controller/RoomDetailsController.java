@@ -9,8 +9,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import lk.ijse.hotelmanagementsystem_ijse.dao.custom.RoomDetailsDAO;
-import lk.ijse.hotelmanagementsystem_ijse.dao.custom.impl.RoomDetailsImpl;
+import lk.ijse.hotelmanagementsystem_ijse.bo.custom.RoomDetailsBO;
+import lk.ijse.hotelmanagementsystem_ijse.bo.custom.impl.RoomDetailsBOImpl;
 import lk.ijse.hotelmanagementsystem_ijse.dto.RoomDetailsDTO;
 
 import java.net.URL;
@@ -50,7 +50,7 @@ public class RoomDetailsController implements Initializable {
     private final String ROOM_ID_REGEX = "^R\\d{3}$";
     private final String PRICE_PER_NIGHT_REGEX = "^[0-9]+(\\.[0-9]{1,2})?$";
 
-    private final RoomDetailsDAO roomDetailsDao =  new RoomDetailsImpl();
+    private final RoomDetailsBO roomDetailsBO =  new RoomDetailsBOImpl();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -89,7 +89,7 @@ public class RoomDetailsController implements Initializable {
                 Optional<ButtonType> result = confirmAlert.showAndWait();
 
                 if (result.isPresent() && result.get() == ButtonType.OK) {
-                    boolean result1 = roomDetailsDao.deleteRoom(roomId);
+                    boolean result1 = roomDetailsBO.deleteRoom(roomId);
 
                     if (result1) {
                         new Alert(Alert.AlertType.INFORMATION, "Room Details deleted successfully!").show();
@@ -135,7 +135,7 @@ public class RoomDetailsController implements Initializable {
                 double pricePerNight = Double.parseDouble(price);
 
                 RoomDetailsDTO roomDetailsDTO = new RoomDetailsDTO(roomId,roomType,pricePerNight,status);
-                boolean result = roomDetailsDao.saveRoom(roomDetailsDTO);
+                boolean result = roomDetailsBO.saveRoom(roomDetailsDTO);
 
                 if (result) {
                     new Alert(Alert.AlertType.INFORMATION, "Room Details saved successfully!").show();
@@ -178,7 +178,7 @@ public class RoomDetailsController implements Initializable {
                 double pricePerNight = Double.parseDouble(price);
 
                 RoomDetailsDTO roomDetailsDTO = new RoomDetailsDTO(roomId,roomType,pricePerNight,status);
-                boolean result = roomDetailsDao.updateRoom(roomDetailsDTO);
+                boolean result = roomDetailsBO.updateRoom(roomDetailsDTO);
                 if(result) {
                     new Alert(Alert.AlertType.INFORMATION, "Room Details updated successfully!").show();
                     cleanFields();
@@ -201,7 +201,7 @@ public class RoomDetailsController implements Initializable {
     public void loadRoomDetailsTable() {
         try {
 
-            List<RoomDetailsDTO> roomDetailsList = roomDetailsDao.getAllRooms();
+            List<RoomDetailsDTO> roomDetailsList = roomDetailsBO.getAllRooms();
 
             ObservableList<RoomDetailsDTO> obList = FXCollections.observableArrayList();
 
@@ -226,7 +226,7 @@ public class RoomDetailsController implements Initializable {
 
     private void generateRoomId() {
         try {
-            String nextId = roomDetailsDao.generateNextEmployeeId();
+            String nextId = roomDetailsBO.generateNextEmployeeId();
             roomIdField.setText(nextId);
         } catch (Exception e) {
             e.printStackTrace();
@@ -247,7 +247,7 @@ public class RoomDetailsController implements Initializable {
                     new Alert(Alert.AlertType.ERROR, "Invalid ID").show();
                 } else {
 
-                    RoomDetailsDTO roomDetailsDTO = roomDetailsDao.searchRoom(id);
+                    RoomDetailsDTO roomDetailsDTO = roomDetailsBO.searchRoom(id);
 
                     if(roomDetailsDTO!=null) {
                         roomIdField.setText(roomDetailsDTO.getRoomId());

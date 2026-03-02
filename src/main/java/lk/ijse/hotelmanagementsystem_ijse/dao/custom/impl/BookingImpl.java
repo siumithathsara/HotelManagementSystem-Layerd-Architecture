@@ -18,59 +18,42 @@ public class BookingImpl implements BookingDAO {
     private final BookingDetailsDAO bookingDetailsDao = new BookingDetailsImpl();
     private final RoomDetailsDAO roomDetailsDao = new RoomDetailsImpl();
 
-    public boolean save(Booking booking) throws Exception, ClassNotFoundException {
+    @Override
+    public boolean saveBooking(Booking dto) throws Exception {
+        String sql = "INSERT INTO Booking (booking_id, customer_id, checkin_date, status) VALUES (?,?,?,?)";
 
-        Connection conn = DBConnection.getInstance().getConnection();
+        boolean isSaved =  CrudUtil.execute(
+                sql,
+                dto.getBooking_id(),
+                dto.getCustomer_id(),
+                dto.getBooking_date(),
+                dto.getStatus()
+        );
+        return  isSaved;
+    }
 
-        try {
-
-            conn.setAutoCommit(false);
-
-
-            String sql = "INSERT INTO Booking (booking_id, customer_id, checkin_date, status) VALUES (?,?,?,?)";
-
-            boolean isSaved =  CrudUtil.execute(
-                    sql,
-                    booking.getBooking_id(),
-                    booking.getCustomer_id(),
-                    booking.getBooking_date(),
-                    booking.getStatus()
-            );
-
-            if (isSaved) {
-
-                boolean isSavedBookingDetails = bookingDetailsDao.save(booking.getBookingDetails());
-
-                if (isSavedBookingDetails) {
-
-                    roomDetailsDao.updateRoomStatus(booking.getBookingDetails().getRoomId(), "Booked");
-                } else {
-                    throw new Exception("Something went wrong when saving to the booking details table");
-                }
-            } else {
-                throw new Exception("Something went wrong when saving to the booking table");
-            }
-
-            conn.commit();
-            return true;
-
-        } catch (Exception e) {
-
-            conn.rollback();
-            System.out.println(e.getMessage());
-        } finally {
-            conn.setAutoCommit(true);
-        }
+    @Override
+    public boolean save(Booking dto) throws Exception {
         return false;
     }
-    public boolean update(Booking booking)
-            throws SQLException, ClassNotFoundException {
 
-        Connection conn = DBConnection.getInstance().getConnection();
+    @Override
+    public boolean update(Booking dto) throws Exception {
+        return false;
+    }
 
-        try {
+    @Override
+    public boolean delete(String id) throws Exception {
+        return false;
+    }
 
-            conn.setAutoCommit(false);
+    public boolean updateBooking(Booking booking) throws SQLException, ClassNotFoundException {
+
+//        Connection conn = DBConnection.getInstance().getConnection();
+//
+//        try {
+//
+//            conn.setAutoCommit(false);
 
 
             String sql = "UPDATE Booking SET customer_id = ?, checkin_date = ?, status = ? WHERE booking_id = ?";
@@ -82,85 +65,92 @@ public class BookingImpl implements BookingDAO {
                     booking.getStatus(),
                     booking.getBooking_id()
             );
+            return  isSaved;
 
 
-            if (isSaved) {
-
-                boolean isSavedBookingDetails = bookingDetailsDao.update(booking.getBookingDetails());
-
-                if (isSavedBookingDetails) {
-
-                    roomDetailsDao.updateRoomStatus(booking.getBookingDetails().getRoomId(), "Available");
-                } else {
-                    throw new Exception("Something went wrong when saving to the booking details table");
-                }
-            } else {
-                throw new Exception("Something went wrong when saving to the booking table");
-            }
-
-            conn.commit();
-            return true;
-
-        } catch (Exception e) {
-
-            conn.rollback();
-            System.out.println(e.getMessage());
-        } finally {
-            conn.setAutoCommit(true);
-        }
-        return false;
+//            if (isSaved) {
+//
+//                boolean isSavedBookingDetails = bookingDetailsDao.update(booking.getBookingDetails());
+//
+//                if (isSavedBookingDetails) {
+//
+//                    roomDetailsDao.updateRoomStatus(booking.getBookingDetails().getRoomId(), "Available");
+//                } else {
+//                    throw new Exception("Something went wrong when saving to the booking details table");
+//                }
+//            } else {
+//                throw new Exception("Something went wrong when saving to the booking table");
+//            }
+//
+//            conn.commit();
+//            return true;
+//
+//        } catch (Exception e) {
+//
+//            conn.rollback();
+//            System.out.println(e.getMessage());
+//        } finally {
+//            conn.setAutoCommit(true);
+//        }
+//        return false;
     }
 
-    public boolean delete(String bookingId)
+    public boolean deleteBooking(String bookingId)
             throws SQLException, ClassNotFoundException {
 
-        Connection conn = DBConnection.getInstance().getConnection();
+//        Connection conn = DBConnection.getInstance().getConnection();
+//
+//        try {
+//            conn.setAutoCommit(false);
+//
+//
+//            String roomId = bookingDetailsDao.getRoomIdByBookingId(bookingId);
+//
+//            if (roomId == null) {
+//                throw new SQLException("Room ID not found for booking: " + bookingId);
+//            }
+//
+//
+//            boolean isDetailsDeleted =
+//                    bookingDetailsDao.delete(bookingId);
+//
+//            if (!isDetailsDeleted) {
+//                throw new SQLException("Booking details delete failed");
+//            }
+//
+//
+//            boolean isBookingDeleted = CrudUtil.execute(
+//                    "DELETE FROM Booking WHERE booking_id=?",
+//                    bookingId
+//            );
+//
+//            if (!isBookingDeleted) {
+//                throw new SQLException("Booking delete failed");
+//            }
+//
+//            boolean isRoomUpdated =
+//                    roomDetailsDao.updateRoomStatus(roomId, "Available");
+//
+//            if (!isRoomUpdated) {
+//                throw new SQLException("Room status update failed");
+//            }
+//
+//            conn.commit();
+//            return true;
+//
+//        } catch (Exception e) {
+//            conn.rollback();
+//            System.out.println("DELETE ERROR: " + e.getMessage());
+//        } finally {
+//            conn.setAutoCommit(true);
+//        }
+//        return false;
 
-        try {
-            conn.setAutoCommit(false);
-
-
-            String roomId = bookingDetailsDao.getRoomIdByBookingId(bookingId);
-
-            if (roomId == null) {
-                throw new SQLException("Room ID not found for booking: " + bookingId);
-            }
-
-
-            boolean isDetailsDeleted =
-                    bookingDetailsDao.delete(bookingId);
-
-            if (!isDetailsDeleted) {
-                throw new SQLException("Booking details delete failed");
-            }
-
-
-            boolean isBookingDeleted = CrudUtil.execute(
-                    "DELETE FROM Booking WHERE booking_id=?",
-                    bookingId
-            );
-
-            if (!isBookingDeleted) {
-                throw new SQLException("Booking delete failed");
-            }
-
-            boolean isRoomUpdated =
-                    roomDetailsDao.updateRoomStatus(roomId, "Available");
-
-            if (!isRoomUpdated) {
-                throw new SQLException("Room status update failed");
-            }
-
-            conn.commit();
-            return true;
-
-        } catch (Exception e) {
-            conn.rollback();
-            System.out.println("DELETE ERROR: " + e.getMessage());
-        } finally {
-            conn.setAutoCommit(true);
-        }
-        return false;
+        boolean isBookingDeleted = CrudUtil.execute(
+                "DELETE FROM Booking WHERE booking_id=?",
+                bookingId
+        );
+        return  isBookingDeleted;
     }
 
 
@@ -180,7 +170,7 @@ public class BookingImpl implements BookingDAO {
                     rs.getString("special_note"),
                     rs.getString("status"),
                     //rs.getString("created_by"),
-                    rs.getTimestamp("created_at").toLocalDateTime()
+                    rs.getString("created_at")
             );
         }
         return null;
@@ -201,7 +191,7 @@ public class BookingImpl implements BookingDAO {
                             rs.getString("special_note"),
                             rs.getString("status"),
                             // rs.getString("created_by"),
-                            rs.getTimestamp("created_at").toLocalDateTime()
+                            rs.getString("created_at")
                     )
             );
         }
@@ -233,13 +223,68 @@ public class BookingImpl implements BookingDAO {
                             rs.getTime("booking_time").toLocalTime(),
                             rs.getString("special_note"),
                             rs.getString("status"),
-                            rs.getString("created_by"),
-                            rs.getTimestamp("created_at").toLocalDateTime()
+                            rs.getString("created_by")
+
                     )
             );
         }
         return list;
     }
+
+    @Override
+    public boolean placeBooking(String bookingId, String customerId, String roomId, Date checkInDate, Date checkOutDate, double totalPrice) throws SQLException {
+//       Connection conn = DBConnection.getInstance().getConnection();
+//
+//        try {
+//
+//            conn.setAutoCommit(false);
+//
+//            String sql = "UPDATE Booking SET checkout_date = ? WHERE booking_id = ?";
+//
+//            boolean isUpdate =  CrudUtil.execute(
+//                    sql,
+//                    checkOutDate,
+//                    bookingId
+//            );
+//
+//            if (isUpdate) {
+//
+//                boolean isUpdateBookingDetails = bookingDetailsDao.updateBookingDetailsCheckOutDate(bookingId, checkOutDate);
+//
+//                if (isUpdateBookingDetails) {
+//
+//                    roomDetailsDao.updateRoomStatus(roomId, "Available");
+//
+//                } else {
+//                    throw new Exception("Something went wrong when update to the checkout date to the booking details table");
+//                }
+//            }  else {
+//                throw new Exception("Something went wrong when update to the checkout date in booking table");
+//            }
+//
+//            conn.commit();
+//            return true;
+//
+//        } catch (Exception e) {
+//
+//            conn.rollback();
+//            System.out.println(e.getMessage());
+//        } finally {
+//            conn.setAutoCommit(true);
+//        }
+//
+//        return false;
+
+        String sql = "UPDATE Booking SET checkout_date = ? WHERE booking_id = ?";
+
+        boolean isUpdate =  CrudUtil.execute(
+                sql,
+                checkOutDate,
+                bookingId
+        );
+        return  isUpdate;
+    }
+
 
     public String generateNextId() throws SQLException {
         ResultSet rs = CrudUtil.execute(
@@ -255,49 +300,15 @@ public class BookingImpl implements BookingDAO {
         return "B001";
     }
 
+    public boolean updateCheckOutDate(String bookingId, Date checkoutDate)
+            throws SQLException, ClassNotFoundException {
+        String sql = "UPDATE Booking SET checkout_date = ? WHERE booking_id = ?";
 
-    public boolean placeBooking(String bookingId, String customerId, String roomId, Date checkInDate, Date checkOutDate, double totalPrice) throws SQLException{
-
-        Connection conn = DBConnection.getInstance().getConnection();
-
-        try {
-
-            conn.setAutoCommit(false);
-
-            String sql = "UPDATE Booking SET checkout_date = ? WHERE booking_id = ?";
-
-            boolean isUpdate =  CrudUtil.execute(
-                    sql,
-                    checkOutDate,
-                    bookingId
-            );
-
-            if (isUpdate) {
-
-                boolean isUpdateBookingDetails = bookingDetailsDao.updateBookingDetailsCheckOutDate(bookingId, checkOutDate);
-
-                if (isUpdateBookingDetails) {
-
-                    roomDetailsDao.updateRoomStatus(roomId, "Available");
-
-                } else {
-                    throw new Exception("Something went wrong when update to the checkout date to the booking details table");
-                }
-            }  else {
-                throw new Exception("Something went wrong when update to the checkout date in booking table");
-            }
-
-            conn.commit();
-            return true;
-
-        } catch (Exception e) {
-
-            conn.rollback();
-            System.out.println(e.getMessage());
-        } finally {
-            conn.setAutoCommit(true);
-        }
-
-        return false;
+        boolean isUpdate =  CrudUtil.execute(
+                sql,
+                checkoutDate,
+                bookingId
+        );
+        return isUpdate;
     }
 }

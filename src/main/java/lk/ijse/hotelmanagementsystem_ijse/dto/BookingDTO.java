@@ -5,7 +5,7 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.Date;
+import java.sql.Date;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -22,8 +22,9 @@ public class BookingDTO {
     private String status;
     private String created_by;
     private BookingDetailsDTO bookingDetails;
+    private LocalDateTime created_at;
 
-    private LocalDateTime created_at;public BookingDTO(String booking_id, String customer_id, Date booking_date, String status, BookingDetailsDTO bookingDetails) {
+    public BookingDTO(String booking_id, String customer_id, Date booking_date, String status, BookingDetailsDTO bookingDetails) {
         this.booking_id = booking_id;
         this.customer_id = customer_id;
         this.booking_date = booking_date;
@@ -54,7 +55,7 @@ public class BookingDTO {
 
     }
 
-    public BookingDTO(String bookingId, String customerId, java.sql.Date checkinDate, String specialNote, String status, LocalDateTime createdAt) {
+    public BookingDTO(String bookingId, String customerId, java.sql.Date checkinDate, String specialNote, String status, String created_by) {
         this.booking_id = bookingId;
         this.customer_id = customerId;
         this.booking_date = checkinDate;
@@ -63,4 +64,5 @@ public class BookingDTO {
         this.created_by = created_by;
        // this.created_at = created_at;
     }
+
 }

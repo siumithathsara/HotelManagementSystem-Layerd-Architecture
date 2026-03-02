@@ -80,4 +80,34 @@ public class DashboardImpl implements DashboardDAO {
                 """
         );
     }
+
+    @Override
+    public boolean save(Object dto) throws Exception {
+        return false;
+    }
+
+    @Override
+    public boolean update(Object dto) throws Exception {
+        return false;
+    }
+
+    @Override
+    public boolean delete(String id) throws Exception {
+        return false;
+    }
+
+    @Override
+    public Object search(String id) throws Exception {
+        return null;
+    }
+
+    @Override
+    public List getAll() throws SQLException, ClassNotFoundException {
+        return List.of();
+    }
+
+    @Override
+    public String generateNextId() throws Exception {
+        return "";
+    }
 }

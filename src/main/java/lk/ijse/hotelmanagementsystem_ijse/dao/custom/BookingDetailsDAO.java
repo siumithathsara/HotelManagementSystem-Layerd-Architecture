@@ -8,8 +8,8 @@ import java.sql.SQLException;
 import java.util.Date;
 
 public interface BookingDetailsDAO extends CrudDAO <BookingDetails>{
-    /*public boolean saveBookingDetails(BookingDetailsDTO bookingDetailsDTO) throws SQLException;
-    public BookingDetailsDTO getBookingDetails(String bookingId) throws SQLException;*/
+//    public boolean saveBookingDetails(BookingDetailsDTO bookingDetailsDTO) throws SQLException;
+    public BookingDetailsDTO getBookingDetails(String bookingId) throws SQLException;
     public boolean updateBookingDetailsCheckOutDate(String bookingID, Date checkOutDate) throws SQLException;
 //    public boolean updateBookingDetails(BookingDetailsDTO bookingDetailsDTO) throws SQLException;
 //    public boolean deleteBookingDetails(String bookingId)throws SQLException, ClassNotFoundException;

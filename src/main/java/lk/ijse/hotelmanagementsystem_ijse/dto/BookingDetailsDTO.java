@@ -2,7 +2,7 @@ package lk.ijse.hotelmanagementsystem_ijse.dto;
 
 import lombok.*;
 
-import java.util.Date;
+import java.sql.Date;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -13,11 +13,11 @@ import java.util.Date;
 public class BookingDetailsDTO {
     private String bookingId;
     private String roomId;
-    private String checkInDate;
-    private String checkOutDate;
+    private Date checkInDate;
+    private Date checkOutDate;
 
 
-    public BookingDetailsDTO(String bookingId, String roomId, String checkInDate) {
+    public BookingDetailsDTO(String bookingId, String roomId, Date checkInDate) {
         this.bookingId = bookingId;
         this.roomId = roomId;
         this.checkInDate = checkInDate;

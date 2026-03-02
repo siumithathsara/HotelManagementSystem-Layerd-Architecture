@@ -1,5 +1,5 @@
 package lk.ijse.hotelmanagementsystem_ijse.bo;
 
-public interface EmployeeBO {
+public class PaymentBOImpl {
 
 }

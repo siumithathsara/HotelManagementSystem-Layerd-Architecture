@@ -1,5 +1,6 @@
-package lk.ijse.hotelmanagementsystem_ijse.bo;
+package lk.ijse.hotelmanagementsystem_ijse.bo.custom.impl;
 
+import lk.ijse.hotelmanagementsystem_ijse.bo.custom.CustomerBO;
 import lk.ijse.hotelmanagementsystem_ijse.dao.custom.CustomerDAO;
 import lk.ijse.hotelmanagementsystem_ijse.dao.custom.impl.CustomerImpl;
 import lk.ijse.hotelmanagementsystem_ijse.dto.CustomerDTO;
@@ -9,7 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CustomerBOImpl implements CustomerBO{
+public class CustomerBOImpl implements CustomerBO {
 
     private CustomerDAO customerDAO =new CustomerImpl();
     @Override
@@ -65,6 +66,8 @@ public class CustomerBOImpl implements CustomerBO{
                    customer.getEmail(),
                    customer.getNic_passport(),
                    customer.getAddress());
+
+           customerDTOS.add(customerDTO);
        }
        return customerDTOS;
     }

@@ -13,4 +13,11 @@ public class RoomDetails {
     private String roomType;
     private double pricePerRoom;
     private String status;
+
+    public RoomDetails(String roomType, double pricePerRoom, String status) {
+
+                this.roomType=roomType;
+                this.pricePerRoom=pricePerRoom;
+                this.status=status;
+    }
 }

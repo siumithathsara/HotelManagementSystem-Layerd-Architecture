@@ -2,6 +2,8 @@ package lk.ijse.hotelmanagementsystem_ijse.entity;
 
 import lombok.*;
 
+import java.sql.Date;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -10,6 +12,6 @@ import lombok.*;
 public class BookingDetails {
     private String bookingId;
     private String roomId;
-    private String checkInDate;
-    private String checkOutDate;
+    private Date checkInDate;
+    private Date checkOutDate;
 }

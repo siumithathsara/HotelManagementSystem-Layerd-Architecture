@@ -15,4 +15,16 @@ public class Employee {
     private String address;
     private String joining_date;
     private String job_role;
+
+    public Employee(String name, String email, String contact, String address, String joiningDate, String jobRole) {
+                                this.name = name;
+                                this.email = email;
+                                this.contact = contact;
+                                this.address = address;
+                                this.joining_date = joiningDate;
+                                this.job_role = jobRole;
+
+    }
+
+
 }

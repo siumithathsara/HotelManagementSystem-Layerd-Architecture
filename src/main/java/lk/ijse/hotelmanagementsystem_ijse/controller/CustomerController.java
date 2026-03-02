@@ -8,10 +8,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import lk.ijse.hotelmanagementsystem_ijse.bo.CustomerBO;
-import lk.ijse.hotelmanagementsystem_ijse.bo.CustomerBOImpl;
-import lk.ijse.hotelmanagementsystem_ijse.dao.custom.CustomerDAO;
-import lk.ijse.hotelmanagementsystem_ijse.dao.custom.impl.CustomerImpl;
+import lk.ijse.hotelmanagementsystem_ijse.bo.custom.CustomerBO;
+import lk.ijse.hotelmanagementsystem_ijse.bo.custom.impl.CustomerBOImpl;
 import lk.ijse.hotelmanagementsystem_ijse.dto.CustomerDTO;
 
 

@@ -8,7 +8,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import lk.ijse.hotelmanagementsystem_ijse.dao.custom.impl.EmployeeImpl;
+import lk.ijse.hotelmanagementsystem_ijse.bo.custom.EmployeeBO;
+import lk.ijse.hotelmanagementsystem_ijse.bo.custom.impl.EmployeeBOImpl;
 import lk.ijse.hotelmanagementsystem_ijse.dto.EmployeeDTO;
 
 import java.net.URL;
@@ -64,7 +65,7 @@ public class EmployeeController implements Initializable {
     @FXML
     private TableView employeeView;
 
-    private final EmployeeImpl employeeDao = new EmployeeImpl();
+    private final EmployeeBO employeeBO = new EmployeeBOImpl();
 
 
     private final String EMPLOYEE_ID_REGEX = "^E\\d{3}$";
@@ -111,7 +112,7 @@ public class EmployeeController implements Initializable {
                 Optional<ButtonType> result = confirmAlert.showAndWait();
 
                 if (result.isPresent() && result.get() == ButtonType.OK) {
-                    boolean result1 = employeeDao.deleteEmployee(employeeId);
+                    boolean result1 = employeeBO.deleteEmployee(employeeId);
 
                     if (result1) {
                         new Alert(Alert.AlertType.INFORMATION, "Employee deleted successfully!").show();
@@ -156,7 +157,7 @@ public class EmployeeController implements Initializable {
             try {
 
                 EmployeeDTO employeeDTO = new EmployeeDTO(address, contact, email, employeeId, jobRolle, name);
-                boolean result = employeeDao.saveEmployee(employeeDTO);
+                boolean result = employeeBO.saveEmployee(employeeDTO);
 
                 if (result) {
                     new Alert(Alert.AlertType.INFORMATION, "Employee saved successfully!").show();
@@ -208,7 +209,7 @@ public class EmployeeController implements Initializable {
             } else {
 
                 EmployeeDTO employeeDTO = new EmployeeDTO(address, contact, email, employeeId, jobRole, name);
-                boolean result = employeeDao.updateEmployee(employeeDTO);
+                boolean result = employeeBO.updateEmployee(employeeDTO);
 
                 if(result) {
                     new Alert(Alert.AlertType.INFORMATION, "Employee updated successfully!").show();
@@ -231,7 +232,7 @@ public class EmployeeController implements Initializable {
     public void loadEmployeeTable() {
         try {
 
-            List<EmployeeDTO> empList = employeeDao.getAllEmployees();
+            List<EmployeeDTO> empList = employeeBO.getAllEmployees();
 
             ObservableList<EmployeeDTO> obList = FXCollections.observableArrayList();
 
@@ -270,7 +271,7 @@ public class EmployeeController implements Initializable {
                     new Alert(Alert.AlertType.ERROR, "Invalid ID").show();
                 } else {
 
-                    EmployeeDTO employeeDTO = employeeDao.searchEmployee(id);
+                    EmployeeDTO employeeDTO = employeeBO.searchEmployee(id);
 
                     if(employeeDTO!=null) {
                         nameField.setText(employeeDTO.getName());
@@ -297,7 +298,7 @@ public class EmployeeController implements Initializable {
 
     private void generateEmployeeId() {
         try {
-            String nextId = employeeDao.generateNextEmployeeId();
+            String nextId = employeeBO.generateNextEmployeeId();
             employeeIdField.setText(nextId);
         } catch (Exception e) {
             e.printStackTrace();
