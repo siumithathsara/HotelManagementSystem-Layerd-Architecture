@@ -68,6 +68,7 @@ public class BookingBOImpl implements BookingBO {
             System.out.println(e.getMessage());
         } finally {
             conn.setAutoCommit(true);
+
         }
         return false;
     }
