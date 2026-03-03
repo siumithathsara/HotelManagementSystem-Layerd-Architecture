@@ -1,5 +1,6 @@
 package lk.ijse.hotelmanagementsystem_ijse.bo;
 
+import lk.ijse.hotelmanagementsystem_ijse.dao.CrudUtil;
 import lk.ijse.hotelmanagementsystem_ijse.dao.custom.BookingDAO;
 import lk.ijse.hotelmanagementsystem_ijse.dao.custom.BookingDetailsDAO;
 import lk.ijse.hotelmanagementsystem_ijse.dao.custom.CustomerDAO;
@@ -11,6 +12,7 @@ import lk.ijse.hotelmanagementsystem_ijse.dao.custom.impl.RoomDetailsImpl;
 import lk.ijse.hotelmanagementsystem_ijse.db.DBConnection;
 import lk.ijse.hotelmanagementsystem_ijse.dto.BookingDTO;
 import lk.ijse.hotelmanagementsystem_ijse.entity.Booking;
+import lk.ijse.hotelmanagementsystem_ijse.entity.BookingDetails;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -25,6 +27,48 @@ public class BookingBOImpl implements BookingBO {
 
     @Override
     public boolean saveBooking(BookingDTO bookingDTO) throws Exception, ClassNotFoundException {
+        Connection conn = DBConnection.getInstance().getConnection();
+
+        try {
+
+            conn.setAutoCommit(false);
+
+            boolean isSaved = bookingDao.saveBooking(new Booking(
+                    bookingDTO.getBooking_id(),
+                    bookingDTO.getBooking_date(),
+                    bookingDTO.getCustomer_id(),
+                    bookingDTO.getStatus()
+            ));
+
+            if (isSaved) {
+
+
+                BookingDetails bookingDetails = new BookingDetails(bookingDTO.getBookingDetails().getBookingId(),
+                        bookingDTO.getBookingDetails().getRoomId(), bookingDTO.getBookingDetails().getCheckInDate(),
+                        bookingDTO.getBookingDetails().getCheckOutDate());
+
+                boolean isSavedBookingDetails = bookingDetailsDao.save(bookingDetails);
+
+                if (isSavedBookingDetails) {
+
+                    roomDetailsDao.updateRoomStatus(bookingDTO.getBookingDetails().getRoomId(), "Booked");
+                } else {
+                    throw new Exception("Something went wrong when saving to the booking details table");
+                }
+            } else {
+                throw new Exception("Something went wrong when saving to the booking table");
+            }
+
+            conn.commit();
+            return true;
+
+        } catch (Exception e) {
+
+            conn.rollback();
+            System.out.println(e.getMessage());
+        } finally {
+            conn.setAutoCommit(true);
+        }
         return false;
     }
 
