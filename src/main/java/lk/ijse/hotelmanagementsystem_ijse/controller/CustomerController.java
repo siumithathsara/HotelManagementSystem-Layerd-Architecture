@@ -8,6 +8,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import lk.ijse.hotelmanagementsystem_ijse.bo.BOFactory;
 import lk.ijse.hotelmanagementsystem_ijse.bo.custom.CustomerBO;
 import lk.ijse.hotelmanagementsystem_ijse.bo.custom.impl.CustomerBOImpl;
 import lk.ijse.hotelmanagementsystem_ijse.dto.CustomerDTO;
@@ -26,7 +27,7 @@ public class CustomerController implements Initializable {
     private final String NIC_OR_PASSPORT_REGEX = "^([0-9]{9}[vVxX]|[0-9]{12}|[A-Za-z][A-Za-z0-9]{5,8})$";
     private final String CONTACT_REGEX = "^\\+[1-9][0-9]{7,14}$";
 //    private final CustomerDAO customerDao = new CustomerImpl();
-    private final CustomerBO customerBO = new CustomerBOImpl();
+    private final CustomerBO customerBO = (CustomerBO) BOFactory.getInstance().getBO(BOFactory.BOTypes.CUSTOMER);
     @FXML
     private TextField contactField;
     @FXML

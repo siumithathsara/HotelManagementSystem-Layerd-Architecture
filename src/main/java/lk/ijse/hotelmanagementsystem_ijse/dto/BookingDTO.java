@@ -44,7 +44,7 @@ public class BookingDTO {
     }
 
 
-    public BookingDTO(String bookingId, String customerId, java.sql.Date checkinDate, String specialNote, String status, String createdBy, LocalDateTime createdAt) {
+    public BookingDTO(String bookingId, String customerId, java.sql.Date checkinDate, String specialNote, String status, String created_by, LocalDateTime created_at) {
         this.booking_id = bookingId;
         this.customer_id = customerId;
         this.booking_date = checkinDate;
@@ -65,4 +65,14 @@ public class BookingDTO {
        // this.created_at = created_at;
     }
 
+    public BookingDTO(String bookingId, String customerId, Date bookingDate, LocalTime bookingTime, String specialNote, String status, String createdBy) {
+                                                this.booking_id = bookingId;
+                                                this.customer_id = customerId;
+                                                this.booking_date = bookingDate;
+                                                this.booking_time = bookingTime;
+                                                this.special_note = specialNote;
+                                                this.status = status;
+                                                this.created_by = createdBy;
+
+    }
 }

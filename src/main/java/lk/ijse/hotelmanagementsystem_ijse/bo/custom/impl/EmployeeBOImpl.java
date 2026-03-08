@@ -1,6 +1,7 @@
 package lk.ijse.hotelmanagementsystem_ijse.bo.custom.impl;
 
 import lk.ijse.hotelmanagementsystem_ijse.bo.custom.EmployeeBO;
+import lk.ijse.hotelmanagementsystem_ijse.dao.DAOFactory;
 import lk.ijse.hotelmanagementsystem_ijse.dao.custom.EmployeeDAO;
 import lk.ijse.hotelmanagementsystem_ijse.dao.custom.impl.EmployeeImpl;
 import lk.ijse.hotelmanagementsystem_ijse.dto.EmployeeDTO;
@@ -12,7 +13,7 @@ import java.util.List;
 
 public class EmployeeBOImpl implements EmployeeBO {
 
-    private EmployeeDAO employeeDAO = new EmployeeImpl();
+    private EmployeeDAO employeeDAO = (EmployeeDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOTypes.EMPLOYEE);
     @Override
     public boolean deleteEmployee(String employeeId) throws Exception {
         return employeeDAO.delete(employeeId);

@@ -9,14 +9,15 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
-import lk.ijse.hotelmanagementsystem_ijse.dao.custom.BookingDAO;
-import lk.ijse.hotelmanagementsystem_ijse.dao.custom.BookingDetailsDAO;
-import lk.ijse.hotelmanagementsystem_ijse.dao.custom.CustomerDAO;
-import lk.ijse.hotelmanagementsystem_ijse.dao.custom.RoomDetailsDAO;
-import lk.ijse.hotelmanagementsystem_ijse.dao.custom.impl.BookingDetailsImpl;
-import lk.ijse.hotelmanagementsystem_ijse.dao.custom.impl.BookingImpl;
-import lk.ijse.hotelmanagementsystem_ijse.dao.custom.impl.CustomerImpl;
-import lk.ijse.hotelmanagementsystem_ijse.dao.custom.impl.RoomDetailsImpl;
+import lk.ijse.hotelmanagementsystem_ijse.bo.BOFactory;
+import lk.ijse.hotelmanagementsystem_ijse.bo.custom.ReservationBO;
+import lk.ijse.hotelmanagementsystem_ijse.bo.custom.impl.ReservationBOImpl;
+import lk.ijse.hotelmanagementsystem_ijse.bo.custom.BookingBO;
+import lk.ijse.hotelmanagementsystem_ijse.bo.custom.CustomerBO;
+import lk.ijse.hotelmanagementsystem_ijse.bo.custom.RoomDetailsBO;
+import lk.ijse.hotelmanagementsystem_ijse.bo.custom.impl.BookingBOImpl;
+import lk.ijse.hotelmanagementsystem_ijse.bo.custom.impl.CustomerBOImpl;
+import lk.ijse.hotelmanagementsystem_ijse.bo.custom.impl.RoomDetailsBOImpl;
 import lk.ijse.hotelmanagementsystem_ijse.dto.BookingDTO;
 import lk.ijse.hotelmanagementsystem_ijse.dto.BookingDetailsDTO;
 import lk.ijse.hotelmanagementsystem_ijse.dto.CustomerDTO;
@@ -95,11 +96,15 @@ public class ReservationController implements Initializable {
     private TableView<RoomReservationTM> reservationView;
 
 
-    private CustomerDAO customerDao = new CustomerImpl();
-    private RoomDetailsDAO roomDetailsDao = new RoomDetailsImpl();
-    private BookingDAO bookingDao = new BookingImpl();
-    private BookingDetailsDAO bookingDetailsDao = new BookingDetailsImpl();
+//    private CustomerDAO customerDao = new CustomerImpl();
+//    private RoomDetailsDAO roomDetailsDao = new RoomDetailsImpl();
+//    private BookingDAO bookingDao = new BookingImpl();
+//    private BookingDetailsDAO bookingDetailsDao = new BookingDetailsImpl();
     private ObservableList<RoomReservationTM> roomReservationObList = FXCollections.observableArrayList();
+    private CustomerBO customerBo = (CustomerBO)  BOFactory.getInstance().getBO(BOFactory.BOTypes.CUSTOMER);
+    private RoomDetailsBO roomDetailsBo = (RoomDetailsBO)BOFactory.getInstance().getBO(BOFactory.BOTypes.ROOM_DETAILS);
+    private BookingBO bookingBO = (BookingBO)BOFactory.getInstance().getBO(BOFactory.BOTypes.BOOKING);
+    private ReservationBO reservationBO = (ReservationBO)BOFactory.getInstance().getBO(BOFactory.BOTypes.RESERVATION);
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -119,7 +124,7 @@ public class ReservationController implements Initializable {
 
         try {
 
-            List<BookingDTO> bookingDTOList = bookingDao.getAllBookings();
+            List<BookingDTO> bookingDTOList = bookingBO.getAllBookings();
             ObservableList<String> obList = FXCollections.observableArrayList();
 
             for (BookingDTO bookingDTO : bookingDTOList) {
@@ -143,10 +148,10 @@ public class ReservationController implements Initializable {
             String bookingId = reservationBox.getValue();
             if (bookingId == null) return;
 
-            BookingDTO booking = bookingDao.searchBooking(bookingId);
-            BookingDetailsDTO details = bookingDetailsDao.getBookingDetails(bookingId);
-            CustomerDTO customer = customerDao.searchCustomer(booking.getCustomer_id());
-            RoomDetailsDTO room = roomDetailsDao.searchRoom(details.getRoomId());
+            BookingDTO booking = bookingBO.searchBooking(bookingId);
+            BookingDetailsDTO details = reservationBO.getBookingDetails(bookingId);
+            CustomerDTO customer = customerBo.searchCustomer(booking.getCustomer_id());
+            RoomDetailsDTO room = roomDetailsBo.searchRoom(details.getRoomId());
 
             lblDate.setText(String.valueOf(booking.getBooking_date()));
             lblCustomerId.setText(customer.getCustomer_id());
@@ -302,7 +307,7 @@ public class ReservationController implements Initializable {
 
 
 
-                boolean isPlaced = bookingDao.placeBooking(
+                boolean isPlaced = bookingBO.placeBooking(
                         bookingId,
                         customerId,
                         roomId,

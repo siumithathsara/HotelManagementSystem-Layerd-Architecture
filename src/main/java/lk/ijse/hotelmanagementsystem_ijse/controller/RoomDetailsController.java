@@ -9,6 +9,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import lk.ijse.hotelmanagementsystem_ijse.bo.BOFactory;
 import lk.ijse.hotelmanagementsystem_ijse.bo.custom.RoomDetailsBO;
 import lk.ijse.hotelmanagementsystem_ijse.bo.custom.impl.RoomDetailsBOImpl;
 import lk.ijse.hotelmanagementsystem_ijse.dto.RoomDetailsDTO;
@@ -50,7 +51,7 @@ public class RoomDetailsController implements Initializable {
     private final String ROOM_ID_REGEX = "^R\\d{3}$";
     private final String PRICE_PER_NIGHT_REGEX = "^[0-9]+(\\.[0-9]{1,2})?$";
 
-    private final RoomDetailsBO roomDetailsBO =  new RoomDetailsBOImpl();
+    private final RoomDetailsBO roomDetailsBO =  (RoomDetailsBO) BOFactory.getInstance().getBO(BOFactory.BOTypes.ROOM_DETAILS);
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {

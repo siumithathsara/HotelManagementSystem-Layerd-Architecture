@@ -57,7 +57,7 @@ public class UserImpl implements UserDAO {
         return "";
     }
 
-    public UserDTO search(String username, String password) throws SQLException, ClassNotFoundException {
+    public UserDTO searchUser(String username, String password) throws SQLException, ClassNotFoundException {
         String sql = "SELECT * FROM `User` WHERE username=? AND password=?";
         ResultSet rs = CrudUtil.execute(sql, username, password);
 

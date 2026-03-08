@@ -2,6 +2,10 @@ package lk.ijse.hotelmanagementsystem_ijse.dto;
 
 import lombok.*;
 
+import java.sql.Date;
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -25,5 +29,7 @@ public class CustomerDTO {
         this.nic_passport = nic;
         this.address = address;
     }
+
+
 
 }

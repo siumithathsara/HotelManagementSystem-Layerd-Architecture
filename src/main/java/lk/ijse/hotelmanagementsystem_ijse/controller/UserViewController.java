@@ -11,6 +11,8 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
+import lk.ijse.hotelmanagementsystem_ijse.bo.BOFactory;
+import lk.ijse.hotelmanagementsystem_ijse.dao.DAOFactory;
 import lk.ijse.hotelmanagementsystem_ijse.dao.custom.impl.UserImpl;
 import lk.ijse.hotelmanagementsystem_ijse.dto.Session;
 import lk.ijse.hotelmanagementsystem_ijse.dto.UserDTO;
@@ -38,7 +40,7 @@ public class UserViewController implements Initializable {
     @FXML
     private Label lblTime;
 
-    private UserImpl userDao = new UserImpl();
+    private UserImpl userDao = (UserImpl) DAOFactory.getInstance().getDAO(DAOFactory.DAOTypes.USER);
 
     @SneakyThrows
     @Override

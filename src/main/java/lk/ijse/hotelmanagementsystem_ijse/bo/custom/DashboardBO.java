@@ -1,6 +1,5 @@
-package lk.ijse.hotelmanagementsystem_ijse.bo;
+package lk.ijse.hotelmanagementsystem_ijse.bo.custom;
 
-import lk.ijse.hotelmanagementsystem_ijse.dao.custom.impl.DashboardImpl;
 import lk.ijse.hotelmanagementsystem_ijse.dto.RoomDetailsDTO;
 
 import java.sql.ResultSet;

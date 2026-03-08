@@ -21,13 +21,13 @@ public class Booking {
     private String created_by;
     private BookingDetails bookingDetails;
 
-    public Booking(String bookingId, String customerId, Date checkinDate, String specialNote, String status, String createdAt) {
+    public Booking(String bookingId, String customerId, Date checkinDate, String specialNote, String status) {
             this.booking_id=bookingId;
             this.customer_id=customerId;
             this.booking_date=checkinDate;
             this.special_note=specialNote;
             this.status=status;
-            this.created_by=createdAt;
+           // this.created_by=createdAt;
            // this.bookingDetails= new BookingDetailsDTO();
 
     }
@@ -83,5 +83,17 @@ public class Booking {
             this.booking_date = bookingDate;
             this.status = status;
             this.booking_id=bookingId;
+    }
+
+
+
+    public Booking(String bookingId, String customerId, Date checkinDate, String specialNote, String status, String createdAt) {
+        this.booking_id = bookingId;
+        this.customer_id = customerId;
+        this.booking_date = checkinDate;
+        this.special_note = specialNote;
+        this.status = status;
+        this.created_by=createdAt;
+
     }
 }

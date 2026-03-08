@@ -7,7 +7,7 @@ module lk.ijse.hotelmanagementsystem_ijse {
     requires javafx.graphics;
     requires javafx.base;
     requires net.sf.jasperreports.core;
-    requires lk.ijse.hotelmanagementsystem_ijse;
+
 
 
     opens lk.ijse.hotelmanagementsystem_ijse.controller to javafx.fxml;

@@ -1,6 +1,7 @@
 package lk.ijse.hotelmanagementsystem_ijse.bo.custom.impl;
 
 import lk.ijse.hotelmanagementsystem_ijse.bo.custom.RoomDetailsBO;
+import lk.ijse.hotelmanagementsystem_ijse.dao.DAOFactory;
 import lk.ijse.hotelmanagementsystem_ijse.dao.custom.RoomDetailsDAO;
 import lk.ijse.hotelmanagementsystem_ijse.dao.custom.impl.RoomDetailsImpl;
 import lk.ijse.hotelmanagementsystem_ijse.dto.RoomDetailsDTO;
@@ -12,7 +13,7 @@ import java.util.List;
 
 public class RoomDetailsBOImpl implements RoomDetailsBO {
 
-    private RoomDetailsDAO roomDetailsDAO = new RoomDetailsImpl();
+    private RoomDetailsDAO roomDetailsDAO = (RoomDetailsDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOTypes.ROOM_DETAILS);
 
     @Override
     public boolean saveRoom(RoomDetailsDTO roomDetailsDTO) throws Exception {

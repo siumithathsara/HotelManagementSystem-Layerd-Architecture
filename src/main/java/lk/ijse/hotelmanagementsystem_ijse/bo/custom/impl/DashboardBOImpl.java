@@ -1,5 +1,7 @@
-package lk.ijse.hotelmanagementsystem_ijse.bo;
+package lk.ijse.hotelmanagementsystem_ijse.bo.custom.impl;
 
+import lk.ijse.hotelmanagementsystem_ijse.bo.custom.DashboardBO;
+import lk.ijse.hotelmanagementsystem_ijse.dao.DAOFactory;
 import lk.ijse.hotelmanagementsystem_ijse.dao.custom.impl.DashboardImpl;
 import lk.ijse.hotelmanagementsystem_ijse.dto.RoomDetailsDTO;
 
@@ -9,25 +11,25 @@ import java.util.List;
 
 public class DashboardBOImpl implements DashboardBO {
 
-    private DashboardImpl dashboardDao = new DashboardImpl();
+    private DashboardImpl dashboardDao = (DashboardImpl) DAOFactory.getInstance().getDAO(DAOFactory.DAOTypes.DASHBOARD);
     @Override
     public int getAvailableRoomCount() throws SQLException, ClassNotFoundException {
-        return 0;
+        return dashboardDao.getAvailableRoomCount();
     }
 
     @Override
     public int getCustomerCount() throws SQLException, ClassNotFoundException {
-        return 0;
+        return dashboardDao.getCustomerCount();
     }
 
     @Override
     public int getTodayBookingCount() throws SQLException, ClassNotFoundException {
-        return 0;
+        return dashboardDao.getTodayBookingCount();
     }
 
     @Override
     public double getTodayRevenue() throws SQLException, ClassNotFoundException {
-        return 0;
+        return dashboardDao.getTodayRevenue();
     }
 
     @Override
@@ -37,6 +39,6 @@ public class DashboardBOImpl implements DashboardBO {
 
     @Override
     public ResultSet getWeeklyBookings() throws SQLException, ClassNotFoundException {
-        return null;
+        return dashboardDao.getWeeklyBookings();
     }
 }

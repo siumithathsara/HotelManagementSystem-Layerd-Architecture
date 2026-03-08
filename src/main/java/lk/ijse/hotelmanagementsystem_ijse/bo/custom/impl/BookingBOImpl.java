@@ -1,6 +1,7 @@
-package lk.ijse.hotelmanagementsystem_ijse.bo;
+package lk.ijse.hotelmanagementsystem_ijse.bo.custom.impl;
 
-import lk.ijse.hotelmanagementsystem_ijse.dao.CrudUtil;
+import lk.ijse.hotelmanagementsystem_ijse.bo.custom.BookingBO;
+import lk.ijse.hotelmanagementsystem_ijse.dao.DAOFactory;
 import lk.ijse.hotelmanagementsystem_ijse.dao.custom.BookingDAO;
 import lk.ijse.hotelmanagementsystem_ijse.dao.custom.BookingDetailsDAO;
 import lk.ijse.hotelmanagementsystem_ijse.dao.custom.CustomerDAO;
@@ -16,14 +17,16 @@ import lk.ijse.hotelmanagementsystem_ijse.entity.BookingDetails;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class BookingBOImpl implements BookingBO {
-    private CustomerDAO customerDao = new CustomerImpl();
-    private RoomDetailsDAO roomDetailsDao = new RoomDetailsImpl();
-    private BookingDAO bookingDao = new BookingImpl();
-    private final BookingDetailsDAO bookingDetailsDao = new BookingDetailsImpl();
+   // CustomerDAO customerDAO  = (CustomerDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOTypes.CUSTOMER);
+    private CustomerDAO customerDao = (CustomerDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOTypes.CUSTOMER);
+    private RoomDetailsDAO roomDetailsDao = (RoomDetailsDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOTypes.ROOM_DETAILS);
+    private BookingDAO bookingDao = (BookingDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOTypes.BOOKING);
+    private final BookingDetailsDAO bookingDetailsDao = (BookingDetailsDAO)  DAOFactory.getInstance().getDAO(DAOFactory.DAOTypes.BOOKING_DETAILS);
 
     @Override
     public boolean saveBooking(BookingDTO bookingDTO) throws Exception, ClassNotFoundException {
@@ -74,7 +77,61 @@ public class BookingBOImpl implements BookingBO {
     }
 
     @Override
-    public boolean updateBooking(BookingDTO dto) throws Exception {
+    public boolean updateBooking(BookingDTO bookingDTO) throws Exception {
+
+        Connection conn = DBConnection.getInstance().getConnection();
+
+        try {
+
+            conn.setAutoCommit(false);
+
+
+//        String sql = "UPDATE Booking SET customer_id = ?, checkin_date = ?, status = ? WHERE booking_id = ?";
+//
+//        boolean isSaved =  CrudUtil.execute(
+//                sql,
+//                booking.getCustomer_id(),
+//                booking.getBooking_date(),
+//                booking.getStatus(),
+//                booking.getBooking_id()
+//        );
+//        return  isSaved;
+
+            boolean isSaved = bookingDao.updateBooking(new Booking(
+                    bookingDTO.getBooking_id(),
+                    bookingDTO.getBooking_date(),
+                    bookingDTO.getCustomer_id(),
+                    bookingDTO.getStatus()
+            ));
+            if (isSaved) {
+
+
+                BookingDetails bookingDetails = new BookingDetails(bookingDTO.getBookingDetails().getBookingId(),
+                        bookingDTO.getBookingDetails().getRoomId(), bookingDTO.getBookingDetails().getCheckInDate(),
+                        bookingDTO.getBookingDetails().getCheckOutDate());
+
+                boolean isSavedBookingDetails = bookingDetailsDao.update(bookingDetails);
+
+                if (isSavedBookingDetails) {
+
+                    roomDetailsDao.updateRoomStatus(bookingDTO.getBookingDetails().getRoomId(), "Available");
+                } else {
+                    throw new Exception("Something went wrong when saving to the booking details table");
+                }
+            } else {
+                throw new Exception("Something went wrong when saving to the booking table");
+            }
+
+            conn.commit();
+            return true;
+
+        } catch (Exception e) {
+
+            conn.rollback();
+            System.out.println(e.getMessage());
+        } finally {
+            conn.setAutoCommit(true);
+        }
         return false;
     }
 
@@ -132,12 +189,40 @@ public class BookingBOImpl implements BookingBO {
 
     @Override
     public BookingDTO searchBooking(String bookingId) throws Exception {
-        return null;
+
+        Booking booking = bookingDao.search(bookingId);
+        return new BookingDTO(
+                booking.getBooking_id(),
+                booking.getCustomer_id(),
+                booking.getBooking_date(),
+                booking.getBooking_time(),
+                booking.getSpecial_note(),
+                booking.getStatus(),
+                booking.getCreated_by()
+        );
+
     }
 
     @Override
     public List<BookingDTO> getAllBookings() throws SQLException, ClassNotFoundException {
-        return List.of();
+        List<Booking> bookings = bookingDao.getAll();
+        ArrayList<BookingDTO> bookingDTOS=new ArrayList<>();
+
+        for (Booking booking : bookings) {
+            BookingDTO bookingDTO=new BookingDTO(
+
+                   booking.getBooking_id(),
+                    booking.getCustomer_id(),
+                    booking.getBooking_date(),
+                    booking.getBooking_time(),
+                    booking.getSpecial_note(),
+                    booking.getStatus(),
+                    booking.getCreated_by()
+            );
+
+            bookingDTOS.add(bookingDTO);
+        }
+        return bookingDTOS;
     }
 
     @Override
@@ -146,7 +231,7 @@ public class BookingBOImpl implements BookingBO {
     }
 
     @Override
-    public List<Booking> getBookingsByDate(String date) throws SQLException, ClassNotFoundException {
+    public List<BookingDTO> getBookingsByDate(String date) throws SQLException, ClassNotFoundException {
         return List.of();
     }
 

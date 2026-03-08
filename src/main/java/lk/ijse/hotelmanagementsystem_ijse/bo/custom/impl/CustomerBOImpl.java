@@ -1,6 +1,7 @@
 package lk.ijse.hotelmanagementsystem_ijse.bo.custom.impl;
 
 import lk.ijse.hotelmanagementsystem_ijse.bo.custom.CustomerBO;
+import lk.ijse.hotelmanagementsystem_ijse.dao.DAOFactory;
 import lk.ijse.hotelmanagementsystem_ijse.dao.custom.CustomerDAO;
 import lk.ijse.hotelmanagementsystem_ijse.dao.custom.impl.CustomerImpl;
 import lk.ijse.hotelmanagementsystem_ijse.dto.CustomerDTO;
@@ -12,7 +13,7 @@ import java.util.List;
 
 public class CustomerBOImpl implements CustomerBO {
 
-    private CustomerDAO customerDAO =new CustomerImpl();
+    private CustomerDAO customerDAO =(CustomerDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOTypes.CUSTOMER);
     @Override
     public boolean saveCustomer(CustomerDTO customerDTO) throws Exception {
         return customerDAO.save(new Customer(

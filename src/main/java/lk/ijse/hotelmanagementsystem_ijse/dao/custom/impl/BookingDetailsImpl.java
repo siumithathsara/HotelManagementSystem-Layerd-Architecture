@@ -30,7 +30,7 @@ public class BookingDetailsImpl implements BookingDetailsDAO {
             return new BookingDetailsDTO(
                     rs.getString("booking_id"),
                     rs.getString("room_id"),
-                    rs.getString("check_in_date")
+                    rs.getDate("check_in_date")
             );
         }
         return null;

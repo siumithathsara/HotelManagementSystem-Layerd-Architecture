@@ -8,6 +8,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import lk.ijse.hotelmanagementsystem_ijse.bo.BOFactory;
 import lk.ijse.hotelmanagementsystem_ijse.bo.custom.EmployeeBO;
 import lk.ijse.hotelmanagementsystem_ijse.bo.custom.impl.EmployeeBOImpl;
 import lk.ijse.hotelmanagementsystem_ijse.dto.EmployeeDTO;
@@ -65,7 +66,7 @@ public class EmployeeController implements Initializable {
     @FXML
     private TableView employeeView;
 
-    private final EmployeeBO employeeBO = new EmployeeBOImpl();
+    private final EmployeeBO employeeBO = (EmployeeBO) BOFactory.getInstance().getBO(BOFactory.BOTypes.EMPLOYEE);
 
 
     private final String EMPLOYEE_ID_REGEX = "^E\\d{3}$";

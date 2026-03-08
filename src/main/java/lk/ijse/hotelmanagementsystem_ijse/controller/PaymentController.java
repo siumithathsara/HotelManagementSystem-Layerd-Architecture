@@ -7,8 +7,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import lk.ijse.hotelmanagementsystem_ijse.dao.custom.PaymentDAO;
-import lk.ijse.hotelmanagementsystem_ijse.dao.custom.impl.PaymentImpl;
+import lk.ijse.hotelmanagementsystem_ijse.bo.BOFactory;
+import lk.ijse.hotelmanagementsystem_ijse.bo.custom.PaymentBO;
+import lk.ijse.hotelmanagementsystem_ijse.bo.custom.impl.PaymentBOImpl;
 import lk.ijse.hotelmanagementsystem_ijse.dto.PaymentDto;
 import lk.ijse.hotelmanagementsystem_ijse.dto.tm.PaymentTM;
 import lk.ijse.hotelmanagementsystem_ijse.dto.tm.RoomReservationTM;
@@ -42,7 +43,8 @@ public class PaymentController implements Initializable {
     @FXML
     private TextField paymentIdField;
 
-    private final PaymentDAO paymentDao = new PaymentImpl();
+//    private final PaymentDAO paymentDao = new PaymentImpl();
+private final PaymentBO paymentBO = (PaymentBO) BOFactory.getInstance().getBO(BOFactory.BOTypes.PAYMENT);
     private final ObservableList<PaymentTM> paymentObList = FXCollections.observableArrayList();
     private ObservableList<RoomReservationTM> roomAllDetails = FXCollections.observableArrayList();;
 
@@ -82,7 +84,7 @@ public class PaymentController implements Initializable {
 
             double totalAmount = Double.parseDouble(lblTotalAmount.getText());
 
-            boolean success = paymentDao.saveFullPayment(
+            boolean success = paymentBO.saveFullPayment(
                     paymentId,
                     totalAmount,
                     method,
@@ -110,7 +112,7 @@ public class PaymentController implements Initializable {
         try {
             paymentObList.clear();
 
-            List<PaymentDto> payments = paymentDao.getAllPayments();
+            List<PaymentDto> payments = paymentBO.getAllPayment();
 
             for (PaymentDto dto : payments) {
                 paymentObList.add(
@@ -133,7 +135,7 @@ public class PaymentController implements Initializable {
 
     private void generatePaymentId() {
         try {
-            paymentIdField.setText(paymentDao.generateNextPaymentId());
+            paymentIdField.setText(paymentBO.generateNextId());
         } catch (Exception e) {
             e.printStackTrace();
         }

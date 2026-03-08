@@ -6,6 +6,9 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import lk.ijse.hotelmanagementsystem_ijse.bo.BOFactory;
+import lk.ijse.hotelmanagementsystem_ijse.dao.DAOFactory;
+import lk.ijse.hotelmanagementsystem_ijse.dao.custom.UserDAO;
 import lk.ijse.hotelmanagementsystem_ijse.dao.custom.impl.UserImpl;
 import lk.ijse.hotelmanagementsystem_ijse.dto.Session;
 import lk.ijse.hotelmanagementsystem_ijse.dto.UserDTO;
@@ -25,7 +28,7 @@ public class LoginController {
     @FXML
     private PasswordField passwordField;
 
-    private final UserImpl userDao = new UserImpl();
+    private final UserDAO userDao = (UserDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOTypes.USER);
     private final Session currentSession = new Session();
 
     @FXML

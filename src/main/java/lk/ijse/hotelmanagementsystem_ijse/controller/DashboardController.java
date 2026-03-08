@@ -16,7 +16,11 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Duration;
-import lk.ijse.hotelmanagementsystem_ijse.dao.custom.impl.DashboardImpl;
+import lk.ijse.hotelmanagementsystem_ijse.bo.BOFactory;
+import lk.ijse.hotelmanagementsystem_ijse.bo.custom.DashboardBO;
+import lk.ijse.hotelmanagementsystem_ijse.bo.custom.RoomDetailsBO;
+import lk.ijse.hotelmanagementsystem_ijse.bo.custom.impl.DashboardBOImpl;
+import lk.ijse.hotelmanagementsystem_ijse.bo.custom.impl.RoomDetailsBOImpl;
 import lk.ijse.hotelmanagementsystem_ijse.dto.RoomDetailsDTO;
 import lk.ijse.hotelmanagementsystem_ijse.dto.tm.RoomTM;
 
@@ -55,7 +59,8 @@ public class DashboardController implements Initializable {
     @FXML
     private NumberAxis yAxis;
 
-    private DashboardImpl dashboardDao = new DashboardImpl();
+    private DashboardBO dashboardBO = (DashboardBO) BOFactory.getInstance().getBO(BOFactory.BOTypes.DASHBOARD);
+    private RoomDetailsBO roomDetailsBO = (RoomDetailsBO) BOFactory.getInstance().getBO(BOFactory.BOTypes.ROOM_DETAILS);
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -72,10 +77,10 @@ public class DashboardController implements Initializable {
 
     private void loadCounts() {
         try {
-            lblCustomer.setText(String.valueOf(dashboardDao.getCustomerCount()));
-            lblAvalible.setText(String.valueOf(dashboardDao.getAvailableRoomCount()));
-            lblBooking.setText(String.valueOf(dashboardDao.getTodayBookingCount()));
-            lblRevenue.setText(String.format("%.2f", dashboardDao.getTodayRevenue()));
+            lblCustomer.setText(String.valueOf(dashboardBO.getCustomerCount()));
+            lblAvalible.setText(String.valueOf(dashboardBO.getAvailableRoomCount()));
+            lblBooking.setText(String.valueOf(dashboardBO.getTodayBookingCount()));
+            lblRevenue.setText(String.format("%.2f", dashboardBO.getTodayRevenue()));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -86,7 +91,7 @@ public class DashboardController implements Initializable {
         ObservableList<RoomTM> list = FXCollections.observableArrayList();
 
         try {
-            List<RoomDetailsDTO> rooms = dashboardDao.getRoomDetails();
+            List<RoomDetailsDTO> rooms = roomDetailsBO.getAllRooms();
 
             for (RoomDetailsDTO dto : rooms) {
                 list.add(new RoomTM(dto.getRoomId(), dto.getRoomType(), dto.getPricePerRoom(), dto.getStatus()));
@@ -106,7 +111,7 @@ public class DashboardController implements Initializable {
         series.setName("Weekly Bookings");
 
         try {
-            ResultSet rs = dashboardDao.getWeeklyBookings();
+            ResultSet rs = dashboardBO.getWeeklyBookings();
 
             while (rs.next()) {
                 String day = rs.getString("day");

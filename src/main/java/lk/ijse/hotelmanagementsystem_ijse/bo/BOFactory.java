@@ -14,7 +14,7 @@ public class BOFactory {
 
     public enum BOTypes{
         BILLING,
-        BOOKING_DETAILS,
+        RESERVATION,
         BOOKING,
         CUSTOMER,
         DASHBOARD,
@@ -28,7 +28,7 @@ public class BOFactory {
         switch (boTypes){
             case BILLING:
                 return new BillingImpl();
-            case BOOKING_DETAILS:
+            case RESERVATION:
                 return new BookingDetailsImpl();
             case BOOKING:
                 return new BookingImpl();
