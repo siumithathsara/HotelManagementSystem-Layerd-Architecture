@@ -29,6 +29,7 @@ public class RoomDetailsBOImpl implements RoomDetailsBO {
     @Override
     public boolean updateRoom(RoomDetailsDTO roomDetailsDTO) throws Exception {
         return roomDetailsDAO.update(new RoomDetails(
+                roomDetailsDTO.getRoomId(),
                 roomDetailsDTO.getRoomType(),
                 roomDetailsDTO.getPricePerRoom(),
                 roomDetailsDTO.getStatus()

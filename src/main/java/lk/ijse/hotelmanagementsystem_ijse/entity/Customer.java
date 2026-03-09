@@ -12,13 +12,13 @@ public class Customer {
     public Customer() {
     }
 
-    public Customer(String address, String nic_passport, String name, String email, String customer_id, String contact) {
-        this.address = address;
-        this.nic_passport = nic_passport;
-        this.name = name;
-        this.email = email;
+    public Customer(String customer_id, String name, String contact, String email, String nic_passport, String address) {
         this.customer_id = customer_id;
+        this.name = name;
         this.contact = contact;
+        this.email = email;
+        this.nic_passport = nic_passport;
+        this.address = address;
     }
 
     public Customer(String name, String contact, String email, String nicPassport, String address) {

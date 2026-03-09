@@ -1,5 +1,6 @@
 package lk.ijse.hotelmanagementsystem_ijse.bo;
 
+import lk.ijse.hotelmanagementsystem_ijse.bo.custom.impl.*;
 import lk.ijse.hotelmanagementsystem_ijse.dao.DAOFactory;
 import lk.ijse.hotelmanagementsystem_ijse.dao.custom.impl.*;
 
@@ -26,24 +27,22 @@ public class BOFactory {
 
     public Object getBO(BOTypes boTypes){
         switch (boTypes){
-            case BILLING:
-                return new BillingImpl();
             case RESERVATION:
-                return new BookingDetailsImpl();
+                return new ReservationBOImpl();
             case BOOKING:
-                return new BookingImpl();
+                return new BookingBOImpl();
             case CUSTOMER:
-                return new CustomerImpl();
+                return new CustomerBOImpl();
             case DASHBOARD:
-                return new DashboardImpl();
+                return new DashboardBOImpl();
             case EMPLOYEE:
-                return new EmployeeImpl();
+                return new EmployeeBOImpl();
             case PAYMENT:
-                return new PaymentImpl();
+                return new PaymentBOImpl();
             case ROOM_DETAILS:
-                return new RoomDetailsImpl();
-            case USER:
-                return new UserImpl();
+                return new RoomDetailsBOImpl();
+//            case USER:
+//                return new UserBOImpl();
             default:
                 return null;
         }

@@ -26,5 +26,13 @@ public class Employee {
 
     }
 
-
+//    public Employee(String employeeId, String name, String email, String contact, String address, String joining_date, String job_role) {
+//        this.employeeId = employeeId;
+//        this.name = name;
+//        this.email = email;
+//        this.contact = contact;
+//        this.address = address;
+//        this.joining_date = joining_date;
+//        this.job_role = job_role;
+//    }
 }

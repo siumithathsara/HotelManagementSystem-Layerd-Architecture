@@ -42,19 +42,19 @@ public class CustomerController implements Initializable {
     @FXML
     private TextField addressField;
     @FXML
-    private TableColumn colAddress;
+    private TableColumn<CustomerDTO, String> colAddress;
     @FXML
-    private TableColumn colContact;
+    private TableColumn<CustomerDTO, String> colContact;
     @FXML
-    private TableColumn colCustomerId;
+    private TableColumn<CustomerDTO, String> colCustomerId;
     @FXML
-    private TableColumn colEmail;
+    private TableColumn<CustomerDTO, String> colEmail;
     @FXML
-    private TableColumn colName;
+    private TableColumn<CustomerDTO, String> colName;
     @FXML
-    private TableColumn colNic;
+    private TableColumn<CustomerDTO, String> colNic;
     @FXML
-    private TableView customerView;
+    private TableView<CustomerDTO> customerView;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {

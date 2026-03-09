@@ -22,14 +22,11 @@ public class CustomerDTO {
     private String  address;
 
 
-    public CustomerDTO(String contact, String email, String name, String nic, String address) {
+    public CustomerDTO(String name, String contact, String email, String nic_passport, String address) {
+        this.name = name;
         this.contact = contact;
         this.email = email;
-        this.name = name;
-        this.nic_passport = nic;
+        this.nic_passport = nic_passport;
         this.address = address;
     }
-
-
-
 }

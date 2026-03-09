@@ -28,6 +28,7 @@ public class CustomerBOImpl implements CustomerBO {
     @Override
     public boolean updateCustomer(CustomerDTO customerDTO) throws Exception {
         return customerDAO.update(new Customer(
+                customerDTO.getCustomer_id(),
                 customerDTO.getName(),
                 customerDTO.getContact(),
                 customerDTO.getEmail(),
