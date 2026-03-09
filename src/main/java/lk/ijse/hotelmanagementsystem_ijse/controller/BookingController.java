@@ -22,6 +22,7 @@ import lk.ijse.hotelmanagementsystem_ijse.dto.*;
 import lk.ijse.hotelmanagementsystem_ijse.dto.tm.BookingTM;
 
 import java.net.URL;
+import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.List;
@@ -283,9 +284,9 @@ public class BookingController implements Initializable {
             try {
 
 
-                BookingDetailsDTO bookingDetailsDTO = new BookingDetailsDTO(bookingId, roomId, checkInDate);
+                BookingDetailsDTO bookingDetailsDTO = new BookingDetailsDTO(bookingId, roomId, Date.valueOf(checkInDate));
 
-                BookingDTO bookingDTO = new BookingDTO(bookingId, customerId, sdf.parse(checkInDate), status, bookingDetailsDTO);
+                BookingDTO bookingDTO = new BookingDTO(bookingId, customerId, Date.valueOf(checkInDate), status, bookingDetailsDTO);
 
                 boolean isSaved = bookingBO.saveBooking(bookingDTO);
 
@@ -380,9 +381,9 @@ public class BookingController implements Initializable {
             try {
 
 
-                BookingDetailsDTO bookingDetailsDTO = new BookingDetailsDTO(bookingId, roomId, checkInDate);
+                BookingDetailsDTO bookingDetailsDTO = new BookingDetailsDTO(bookingId, roomId, Date.valueOf(checkInDate));
 
-                BookingDTO bookingDTO = new BookingDTO(bookingId, customerId, sdf.parse(checkInDate), status, bookingDetailsDTO);
+                BookingDTO bookingDTO = new BookingDTO(bookingId, customerId, Date.valueOf(checkInDate), status, bookingDetailsDTO);
 
                 boolean isSaved = bookingBO.updateBooking(bookingDTO);
 
