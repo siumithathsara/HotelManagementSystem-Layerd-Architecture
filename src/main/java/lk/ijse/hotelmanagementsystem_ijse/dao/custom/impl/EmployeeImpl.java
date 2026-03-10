@@ -28,8 +28,6 @@ public class EmployeeImpl implements EmployeeDAO {
 
     public boolean update(Employee employee) throws SQLException, ClassNotFoundException {
 
-
-
         String sql = "UPDATE Employee SET name=?, email=?, contact=?, address=?, job_role=? " +
                 "WHERE employee_id=?";
 

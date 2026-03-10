@@ -34,6 +34,7 @@ public class EmployeeBOImpl implements EmployeeBO {
     @Override
     public boolean updateEmployee(EmployeeDTO employeeDTO) throws Exception {
         return employeeDAO.update(new Employee(
+                employeeDTO.getEmployeeId(),
                 employeeDTO.getName(),
                 employeeDTO.getEmail(),
                 employeeDTO.getContact(),
@@ -50,6 +51,7 @@ public class EmployeeBOImpl implements EmployeeBO {
                 employee.getName(),
                 employee.getEmail(),
                 employee.getContact(),
+                employee.getAddress(),
                 employee.getJoining_date(),
                 employee.getJob_role()
         );
@@ -66,6 +68,7 @@ public class EmployeeBOImpl implements EmployeeBO {
                   employee.getName(),
                   employee.getEmail(),
                   employee.getContact(),
+                  employee.getAddress(),
                   employee.getJoining_date(),
                   employee.getJob_role()
           );

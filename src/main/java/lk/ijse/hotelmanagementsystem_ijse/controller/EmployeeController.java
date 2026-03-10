@@ -43,28 +43,28 @@ public class EmployeeController implements Initializable {
     private ComboBox<String> jobRoleBox;
 
     @FXML
-    private TableColumn colAddress;
+    private TableColumn<EmployeeDTO , String > colAddress;
 
     @FXML
-    private TableColumn colContact;
+    private TableColumn<EmployeeDTO , String > colContact;
 
     @FXML
-    private TableColumn colEmail;
+    private TableColumn<EmployeeDTO , String > colEmail;
 
     @FXML
-    private TableColumn colEmployeeId;
+    private TableColumn<EmployeeDTO , String > colEmployeeId;
 
     @FXML
-    private TableColumn colJobRole;
+    private TableColumn<EmployeeDTO , String > colJobRole;
 
     @FXML
-    private TableColumn colJoinDate;
+    private TableColumn<EmployeeDTO , String > colJoinDate;
 
     @FXML
-    private TableColumn colName;
+    private TableColumn<EmployeeDTO , String > colName;
 
     @FXML
-    private TableView employeeView;
+    private TableView<EmployeeDTO> employeeView;
 
     private final EmployeeBO employeeBO = (EmployeeBO) BOFactory.getInstance().getBO(BOFactory.BOTypes.EMPLOYEE);
 
@@ -223,7 +223,7 @@ public class EmployeeController implements Initializable {
             }
 
         } catch(Exception e) {
-            e.printStackTrace();
+           e.printStackTrace();
             new Alert(Alert.AlertType.ERROR, "Something went wrong!").show();
         }
 
@@ -240,6 +240,7 @@ public class EmployeeController implements Initializable {
             for (EmployeeDTO employeeDTO : empList) {
                 obList.add(employeeDTO);
             }
+//            System.out.println(obList);
 
             employeeView.setItems(obList);
         } catch(Exception e) {
