@@ -301,7 +301,8 @@ public class BookingController implements Initializable {
                 }
 
             } catch (Exception e) {
-                throw new RuntimeException(e);
+
+                e.printStackTrace();
             }
         }
     }

@@ -83,6 +83,7 @@ private final PaymentBO paymentBO = (PaymentBO) BOFactory.getInstance().getBO(BO
             }
 
             double totalAmount = Double.parseDouble(lblTotalAmount.getText());
+            System.out.println("Debug 01");
 
             boolean success = paymentBO.saveFullPayment(
                     paymentId,
@@ -91,12 +92,16 @@ private final PaymentBO paymentBO = (PaymentBO) BOFactory.getInstance().getBO(BO
                     roomAllDetails
             );
 
+            System.out.println("Debug 02");
+
             if (!success) {
                 new Alert(Alert.AlertType.ERROR, "Payment failed").show();
                 return;
             }
 
             new Alert(Alert.AlertType.INFORMATION, "Payment completed successfully").show();
+
+            System.out.println("Debug 03");
 
             generatePaymentId();
             loadPaymentTable();

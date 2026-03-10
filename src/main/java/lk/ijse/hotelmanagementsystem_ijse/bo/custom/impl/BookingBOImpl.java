@@ -37,10 +37,11 @@ public class BookingBOImpl implements BookingBO {
             conn.setAutoCommit(false);
 
             boolean isSaved = bookingDao.saveBooking(new Booking(
-                    bookingDTO.getBooking_id(),
-                    bookingDTO.getBooking_date(),
                     bookingDTO.getCustomer_id(),
-                    bookingDTO.getStatus()
+                    bookingDTO.getBooking_date(),
+                    bookingDTO.getStatus(),
+                    bookingDTO.getBooking_id()
+
             ));
 
             if (isSaved) {
@@ -98,10 +99,10 @@ public class BookingBOImpl implements BookingBO {
 //        return  isSaved;
 
             boolean isSaved = bookingDao.updateBooking(new Booking(
-                    bookingDTO.getBooking_id(),
-                    bookingDTO.getBooking_date(),
                     bookingDTO.getCustomer_id(),
-                    bookingDTO.getStatus()
+                    bookingDTO.getBooking_date(),
+                    bookingDTO.getStatus(),
+                    bookingDTO.getBooking_id()
             ));
             if (isSaved) {
 

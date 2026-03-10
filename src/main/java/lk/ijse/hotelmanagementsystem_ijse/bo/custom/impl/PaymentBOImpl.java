@@ -28,31 +28,40 @@ public class PaymentBOImpl  implements PaymentBO {
 
         Connection conn = DBConnection.getInstance().getConnection();
 
+        System.out.println("savefullpayment debug 01.1");
+
         try {
             conn.setAutoCommit(false);
 
 
 //            String sql = "INSERT INTO payment (payment_id, amount, payment_method, payment_status) VALUES (?,?,?,?)";
 //           boolean isSaved = CrudUtil.execute(conn, sql, paymentId, totalAmount, method, "Success");
+            System.out.println("savefullpayment debug 01.2");
 
             boolean isSaved = paymentDao.saveFullPayment(paymentId, totalAmount, method, rooms);
 
+            System.out.println("savefullpayment debug 01");
             if (!isSaved) {
                 System.out.println("Failed to save payment");
                 conn.rollback();
                 return false;
             }
+            System.out.println("savefullpayment debug 02");
 
 
             for (RoomReservationTM room : rooms) {
                 String bookingId = room.getBookingId();
                 double paidAmount = room.getTotalPrice();
 
+                System.out.println("savefullpayment debug 03");
+
                 if (bookingId == null || bookingId.isEmpty()) {
                     System.out.println("Invalid booking ID for room: " + room);
                     conn.rollback();
                     return false;
                 }
+
+                System.out.println("savefullpayment debug 04");
 
                 String sql2 = "INSERT INTO payment_booking (payment_id, booking_id, paid_amount) VALUES (?,?,?)";
                 boolean isSavedDetails = CrudUtil.execute(conn, sql2, paymentId, bookingId, paidAmount);

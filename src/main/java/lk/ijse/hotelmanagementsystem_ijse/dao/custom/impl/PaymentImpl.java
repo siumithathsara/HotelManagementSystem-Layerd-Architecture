@@ -28,7 +28,9 @@ public class PaymentImpl implements PaymentDAO {
 
 
             String sql = "INSERT INTO payment (payment_id, amount, payment_method, payment_status) VALUES (?,?,?,?)";
-                boolean isSaved = CrudUtil.execute(sql, paymentId, totalAmount, method, rooms);
+//            String paymentStatus
+
+                boolean isSaved = CrudUtil.execute(sql, paymentId, totalAmount, method, "Success");
                 return isSaved;
 //            boolean isSaved = CrudUtil.execute(conn, sql, paymentId, totalAmount, method, "Success");
 //
